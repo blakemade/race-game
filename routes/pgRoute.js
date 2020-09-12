@@ -47,16 +47,16 @@ router.get('/', function (req, res) {
 
             myRows = Object.assign({}, res.rows);
 
-            console.log('myRows = ', JSON.stringify(myRows));
+            
         }
 
         connection.end();
     })
 
-
+    console.log('myRows = ', JSON.stringify(myRows));
 
     res.render('index', {
-        title: JSON.stringify(myRows),
+        title: JSON.stringify(myRows).toString(),
         body: 'Hey there...'
     });
 
