@@ -29,26 +29,29 @@ router.get('/', function (req, res) {
             rejectUnauthorized: false
         }
     });
-        
+
     connection.connect();
 
     console.log('connected to pg');
-    
+
     connection.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
         if (err) throw err;
         for (let row of res.rows) {
             console.log(JSON.stringify(row));
         }
-        
+
         myRows = res.rows;
-        
-        res.render('index', {
-            title: JSON.stringify(myRows),
-            body: 'Hey there...'
-        });
-        
-        client.end();
+    })
+
+    connection.end();
+
+    res.render('index', {
+        title: JSON.stringify(myRows),
+        body: 'Hey there...'
     });
+
+    
+
 });
 
 module.exports = router;
