@@ -45,10 +45,11 @@ router.get('/', function (req, res) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = [...res.rows];
+            myRows = Array.from[res.rows];
 
             if (myRows != []) {
                 console.log('myRows is not empty here');
+                console.log('logging first element of myRows inside query block', myRows[0]);
             } 
 
             console.log('res.rows: ', res.rows);
@@ -57,14 +58,16 @@ router.get('/', function (req, res) {
         }
 
         connection.end();
+
+        res.render('index', {
+            title: JSON.stringify(myRows[0]),
+            body: 'Hey there...'
+        });
     })
 
-    console.log('myRows first element = ', myRows[0]);
+    console.log('myRows first element outside of query block= ', myRows[0]);
 
-    res.render('index', {
-        title: JSON.stringify(myRows[0]),
-        body: 'Hey there...'
-    });
+
 
 
 
