@@ -47,6 +47,10 @@ router.get('/', function (req, res) {
 
             myRows = Object.assign({}, res);
 
+            if (myRows) {
+                console.log('myRows is not null/undefined here');
+            } 
+
             console.log('res.rows: ', res.rows);
 
             
@@ -58,7 +62,7 @@ router.get('/', function (req, res) {
     console.log('myRows = ', JSON.stringify(myRows));
 
     res.render('index', {
-        title: res.rows.toString(),
+        title: res.rows[0],
         body: 'Hey there...'
     });
 
