@@ -49,28 +49,19 @@ router.get('/', function (req, res) {
 
             if (myRows != []) {
                 console.log('myRows is not empty here');
-                console.log('logging first element of myRows inside query block', myRows[0]);
+                console.log('logging myRows inside query block', myRows);
             } 
 
             console.log('res.rows: ', res.rows);
 
-            
+            res.render('index', {
+                title: 'will put the right thing in here when I figure it out',
+                body: 'Hey there...'
+            });
         }
-
         connection.end();
-
-        res.render('index', {
-            title: JSON.stringify(myRows[0]),
-            body: 'Hey there...'
-        });
     })
-
-    console.log('myRows first element outside of query block= ', myRows[0]);
-
-
-
-
-
+    // console.log('myRows first element outside of query block= ', myRows[0]);
 });
 
 module.exports = router;
