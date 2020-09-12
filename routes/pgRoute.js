@@ -23,7 +23,7 @@ console.log("logging process.env.DATABASE_URL: ", process.env.DATABASE_URL);
 
 router.get('/', function (req, res) {
 
-    let myRows;
+    let myRows = {};
 
     const connection = new Client({
         connectionString: process.env.DATABASE_URL,
@@ -58,7 +58,7 @@ router.get('/', function (req, res) {
     console.log('myRows = ', JSON.stringify(myRows));
 
     res.render('index', {
-        title: res.rows,
+        title: res.rows.toString(),
         body: 'Hey there...'
     });
 
