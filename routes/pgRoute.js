@@ -19,6 +19,8 @@ const { Client } = require('pg')
 
 console.log("logging process.env.DATABASE_URL: ", process.env.DATABASE_URL);
 
+
+
 router.get('/', function (req, res) {
 
     let myRows;
@@ -35,22 +37,30 @@ router.get('/', function (req, res) {
     console.log('connected to pg');
 
     connection.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-        if (err) throw err;
-        for (let row of res.rows) {
-            console.log(JSON.stringify(row));
+        if (err) {
+            console.log(err);
+            throw err;
+        } else {
+            for (let row of res.rows) {
+                console.log(JSON.stringify(row));
+            }
         }
 
         myRows = res.rows;
+
+        console.log('myRows = ', myRows);
+        
+        connection.end();
     })
 
-    connection.end();
+    
 
     res.render('index', {
         title: JSON.stringify(myRows),
         body: 'Hey there...'
     });
 
-    
+
 
 });
 
