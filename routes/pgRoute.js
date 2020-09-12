@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = Array.from[res.rows];
+            myRows = [...res.rows];
 
             if (myRows != undefined) {
                 console.log('myRows is defined here');
