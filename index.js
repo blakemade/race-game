@@ -30,7 +30,8 @@
 // this should just import and launch app
 
 const app = require('./app.js');
-console.log('maybe launching server?')
+console.log('maybe launching server?');
+console.log('process.env: ', process.env);
 
 const PORT = process.env.PORT || 3000;
 
