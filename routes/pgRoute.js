@@ -45,7 +45,9 @@ router.get('/', function (req, res) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = Object.assign({}, res.rows);
+            myRows = Object.assign({}, res);
+
+            console.log('res.rows: ', res.rows);
 
             
         }
@@ -56,7 +58,7 @@ router.get('/', function (req, res) {
     console.log('myRows = ', JSON.stringify(myRows));
 
     res.render('index', {
-        title: JSON.stringify(myRows).toString(),
+        title: res.rows,
         body: 'Hey there...'
     });
 
