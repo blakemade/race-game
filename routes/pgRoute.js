@@ -23,7 +23,7 @@ console.log("logging process.env.DATABASE_URL: ", process.env.DATABASE_URL);
 
 router.get('/', function (req, res) {
 
-    let myRows = {};
+    let myRows = [];
 
     const connection = new Client({
         connectionString: process.env.DATABASE_URL,
@@ -45,10 +45,10 @@ router.get('/', function (req, res) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = Object.assign({}, res);
+            myRows = [...res.rows];
 
-            if (myRows) {
-                console.log('myRows is not null/undefined here');
+            if (myRows != []) {
+                console.log('myRows is not empty here');
             } 
 
             console.log('res.rows: ', res.rows);
@@ -59,10 +59,10 @@ router.get('/', function (req, res) {
         connection.end();
     })
 
-    console.log('myRows = ', JSON.stringify(myRows));
+    // console.log('myRows = ', JSON.stringify(myRows));
 
     res.render('index', {
-        title: res.rows[0],
+        title: myRows[0],
         body: 'Hey there...'
     });
 
