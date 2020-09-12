@@ -41,19 +41,19 @@ router.get('/', function (req, res) {
             console.log(err);
             throw err;
         } else {
-            for (let row of res.rows) {
-                console.log(JSON.stringify(row));
-            }
+            // for (let row of res.rows) {
+            //     console.log(JSON.stringify(row));
+            // }
+
+            myRows = Object.assign({}, res.rows);
+
+            console.log('myRows = ', JSON.stringify(myRows));
         }
 
-        myRows = res.rows;
-
-        console.log('myRows = ', myRows);
-        
         connection.end();
     })
 
-    
+
 
     res.render('index', {
         title: JSON.stringify(myRows),
