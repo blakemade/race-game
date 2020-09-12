@@ -49,14 +49,12 @@ router.get('/', function (req, res) {
 
             if (myRows != undefined) {
                 console.log('myRows is defined here');
-                console.log('typeof(myRows) = '), typeof(myRows);
+                console.log('typeof(myRows) = '), typeof(myRows).toString();
                 console.log('logging myRows inside query block', myRows);
             }
 
-            console.log('res.rows: ', res.rows);
-
             res.render('index', {
-                title: 'will put the right thing in here when I figure it out',
+                title: JSON.stringify(myRows),
                 body: 'Hey there...'
             });
         }
