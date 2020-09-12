@@ -59,10 +59,10 @@ router.get('/', function (req, res) {
         connection.end();
     })
 
-    // console.log('myRows = ', JSON.stringify(myRows));
+    console.log('myRows first element = ', myRows[0]);
 
     res.render('index', {
-        title: myRows[0],
+        title: JSON.stringify(myRows[0]),
         body: 'Hey there...'
     });
 
