@@ -36,16 +36,17 @@ router.get('/', function (req, res) {
 
     console.log('connected to pg');
 
-    connection.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+    connection.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, pgRes) => {
         if (err) {
             console.log(err);
+            connection.end();
             throw err;
         } else {
             // for (let row of res.rows) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = [...res.rows];
+            myRows = [...pgRes.rows];
 
             if (myRows != undefined) {
                 console.log('myRows is defined here');
@@ -55,16 +56,13 @@ router.get('/', function (req, res) {
 
             console.log('res.rows: ', res.rows);
 
-            
+            res.render('index', {
+                title: 'will put the right thing in here when I figure it out',
+                body: 'Hey there...'
+            });
+            connection.end();
         }
-        connection.end();
     })
-    
-    res.render('index', {
-        title: 'will put the right thing in here when I figure it out',
-        body: 'Hey there...'
-    });
-    // console.log('myRows first element outside of query block= ', myRows[0]);
 });
 
 module.exports = router;
