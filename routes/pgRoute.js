@@ -47,20 +47,23 @@ router.get('/', function (req, res) {
 
             myRows = Array.from[res.rows];
 
-            if (myRows != []) {
-                console.log('myRows is not empty here');
+            if (myRows != undefined) {
+                console.log('myRows is defined here');
+                console.log('typeof(myRows) = '), typeof(myRows);
                 console.log('logging myRows inside query block', myRows);
             } 
 
             console.log('res.rows: ', res.rows);
 
-            res.render('index', {
-                title: 'will put the right thing in here when I figure it out',
-                body: 'Hey there...'
-            });
+            
         }
         connection.end();
     })
+    
+    res.render('index', {
+        title: 'will put the right thing in here when I figure it out',
+        body: 'Hey there...'
+    });
     // console.log('myRows first element outside of query block= ', myRows[0]);
 });
 
