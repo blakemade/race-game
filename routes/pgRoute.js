@@ -39,20 +39,19 @@ router.get('/', function (req, res) {
     connection.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, pgRes) => {
         if (err) {
             console.log(err);
-            connection.end();
             throw err;
         } else {
             // for (let row of res.rows) {
             //     console.log(JSON.stringify(row));
             // }
 
-            myRows = [...pgRes.rows];
+            myRows = Array.from(pgRes.rows);
 
             if (myRows != undefined) {
                 console.log('myRows is defined here');
                 console.log('typeof(myRows) = '), typeof(myRows);
                 console.log('logging myRows inside query block', myRows);
-            } 
+            }
 
             console.log('res.rows: ', res.rows);
 
@@ -60,9 +59,9 @@ router.get('/', function (req, res) {
                 title: 'will put the right thing in here when I figure it out',
                 body: 'Hey there...'
             });
-            connection.end();
         }
-    })
+        connection.end();
+    });
 });
 
 module.exports = router;
