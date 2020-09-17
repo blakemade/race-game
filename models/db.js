@@ -1,5 +1,6 @@
 const dotenv = require('dotenv').config();
 const { Client } = require('pg');
+const qRes = require('./pgModel');
 let client;
 
 if (process.env.NODE_ENV == 'production') {
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV == 'production') {
 
 // console.log('logging process.env.DB_PASSWORD: ', process.env.DB_PASSWORD);
 
-client.connect();
+//client.connect();
 
 console.log(`connected to postgres as user: ${process.env.PGUSER}
                 database: ${process.env.PGDATABASE}
@@ -28,20 +29,25 @@ console.log(`connected to postgres as user: ${process.env.PGUSER}
 
 // let result; 
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;')
-    .then((qRes) => {
+const defaultQuery = () => {
+    client.connect();
+    client.query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .then(qRes => {
+        
+        return qRes;
         // if (err) throw err;
         // result = qRes;
         
         // console.log('logging qRes from client.query in pgModel: \n \n \n', JSON.stringify(qRes), qRes);
-        module.exports = qRes;
-        client.end();
+        // module.exports = qRes;
 
-        // return qRes;
 
+        // client.end();
     })
-    
+    .then(client.end())
     .catch(err => console.error(err.stack))
+
+};
     //.then(client.end());
 
 // client.connect();
@@ -52,3 +58,22 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;')
 //     .catch(e => console.error(e.stack));
 
 
+const getManufacturers = async () => {
+    try {
+        client.connect();
+        let result = await client.query('SELECT * FROM race_game.manufacturers;');
+        console.log(result);
+        client.end();
+        return result;
+    }
+    catch {
+        console.log('there was an error');
+    }
+}
+
+// getManufacturers();
+
+module.exports = {
+    getManufacturers : getManufacturers,
+    defaultQuery : defaultQuery
+}
