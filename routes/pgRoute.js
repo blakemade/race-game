@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const getManufacturers = require('../models/db').getManufacturers;
+const db = require('../models/db')
+// const getManufacturers = require('../models/db').getManufacturers;
 
 // console.log('logging qRes from pgRoute: ', toString(qRes), qRes, JSON.stringify(qRes));
 
@@ -30,7 +31,7 @@ const getManufacturers = require('../models/db').getManufacturers;
 
 
 
-router.get('/', function (req, res) {
+router.get('/', (req, res, next) => {
 
 
     // commenting out to test importing pgModel
@@ -63,17 +64,29 @@ router.get('/', function (req, res) {
     //             console.log('typeof(myRows) = '), typeof(myRows).toString();
     //             console.log('logging myRows inside query block', myRows);
     //         }
-    let manufacturers = getManufacturers();
-    console.log('logging manufacturers from pgRoute: ', manufacturers);
 
-    res.render('index', {
-        title: getManufacturers(), // JSON.stringify(res), //JSON.stringify(myRows),
-        body: 'Hey there...',
-        // qRes: {'qRes': qRes }
+    // let manufacturers = 
+
+    db.query('SELECT * FROM race_game.manufacturers', null, (err, qRes) => {
+        if (err) {
+            return next(err);
+        }
+        res.render('index', {
+            title: JSON.stringify(qRes.rows), // JSON.stringify(res), //JSON.stringify(myRows),
+            body: 'Hey there...',
+        });
+
+        console.log('logging manufacturers from pgRoute: ', qRes);
+
+        // res.render('index', {
+        //     title: getManufacturers(), // JSON.stringify(res), //JSON.stringify(myRows),
+        //     body: 'Hey there...',
+        //     // qRes: {'qRes': qRes }
+        // });
+        // // }
+        // // connection.end();
+        // //});
     });
-    // }
-    // connection.end();
-    //});
 });
 
-module.exports = router;
+module.exports = router

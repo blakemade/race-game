@@ -31,7 +31,7 @@ const dotenv = require('dotenv').config();
 
 const app = require('./app.js');
 console.log('maybe launching server?');
-console.log('process.env: ', process.env);
+// console.log('process.env: ', process.env);
 
 const PORT = process.env.PORT || 3000;
 
