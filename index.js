@@ -1,5 +1,5 @@
 // const mysql = require('mysql');
-// const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 // const connection = mysql.createConnection({
 //   host: 'localhost',
@@ -31,7 +31,7 @@
 
 const app = require('./app.js');
 console.log('maybe launching server?');
-console.log('process.env: ', process.env);
+// console.log('process.env: ', process.env);
 
 const PORT = process.env.PORT || 3000;
 
