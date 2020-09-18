@@ -104,5 +104,12 @@ switch (process.env.NODE_ENV) {
 module.exports = {
     // getManufacturers : getManufacturers,
     // defaultQuery : defaultQuery,
-    query: (text, params, callback) => client.query(text, params, callback)
+    query: (text, params, callback) => {
+        if (pool) {
+            pool.query(text, params, callback);
+        }
+        if (client) {
+            client.query(text, params, callback);
+        }
+    }
 }
