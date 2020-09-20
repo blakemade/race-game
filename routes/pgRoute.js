@@ -67,7 +67,7 @@ router.get('/', (req, res, next) => {
 
     // let manufacturers = 
 
-    db.query('SELECT * FROM race_game.manufacturers', null, (err, qRes) => {
+    db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id;', null, (err, qRes) => {
         if (err) {
             return next(err);
         }
