@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    // h1= title
+    p.text-white.bg-dark Welcome to #{title}
+    p.bg-info.text-center Body: #{body}
+    p.bg-light.text-secondary qRes: #{qRes}
+    #container
+
+block scripts
+    script(src='https://unpkg.com/react@16/umd/react.production.min.js' crossorigin)
+    script(src='https://unpkg.com/react-dom@16/umd/react-dom.production.min.js' crossorigin)
+    script(src='/javascripts/like_button.js')

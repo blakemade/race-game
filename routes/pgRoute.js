@@ -71,9 +71,21 @@ router.get('/', (req, res, next) => {
         if (err) {
             return next(err);
         }
+        let counter = 0;
+        let arr = [];
+
+        while (counter < 20) {
+            arr.push(JSON.stringify(qRes.rows[counter]));
+            counter++;
+        }
+
+        let newArr = arr.map(el => `<ul>${el}</ul>`)
+
+        console.log('logging newArr from pgRoute: ', newArr);
+
         res.render('index', {
-            title: JSON.stringify(qRes.rows), // JSON.stringify(res), //JSON.stringify(myRows),
-            body: 'Hey there...',
+            title: arr, // JSON.stringify(res), //JSON.stringify(myRows),
+            body: newArr,
         });
 
         console.log('logging manufacturers from pgRoute: ', qRes);
