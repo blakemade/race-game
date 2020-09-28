@@ -67,28 +67,28 @@ router.get('/', (req, res, next) => {
 
     // let manufacturers = 
 
-    db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id;', null, (err, qRes) => {
+    db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id;', null, (err, qRes1) => {
         if (err) {
             return next(err);
         }
         let counter = 0;
-        let arr = [];
+        let arr1 = [];
 
         while (counter < 20) {
-            arr.push(JSON.stringify(qRes.rows[counter]));
+            arr1.push(JSON.stringify(qRes1.rows[counter]));
             counter++;
         }
 
-        let newArr = arr.map(el => `<ul>${el}</ul>`)
+        let newArr1 = arr1.map(el => `<ul>${el}</ul>`)
 
-        console.log('logging newArr from pgRoute: ', newArr);
+        console.log('logging newArr from pgRoute: ', newArr1);
 
-        res.render('index', {
-            title: arr, // JSON.stringify(res), //JSON.stringify(myRows),
-            body: newArr,
-        });
+        // res.render('index', {
+        //     title: arr, // JSON.stringify(res), //JSON.stringify(myRows),
+        //     body: newArr,
+        // });
 
-        console.log('logging manufacturers from pgRoute: ', qRes);
+        console.log('logging manufacturers from pgRoute: ', qRes1);
 
         // res.render('index', {
         //     title: getManufacturers(), // JSON.stringify(res), //JSON.stringify(myRows),
@@ -98,7 +98,18 @@ router.get('/', (req, res, next) => {
         // // }
         // // connection.end();
         // //});
+
+        // });
+
+        db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id WHERE manufacturer_name = \'Audi\' AND cars.owned = \'t\';', null, (err, qRes2) => {
+
+            res.render('index', {
+                title: arr1, // JSON.stringify(res), //JSON.stringify(myRows),
+                body: JSON.stringify(qRes2.rows)
+            });
+        });
     });
 });
 
 module.exports = router
+
