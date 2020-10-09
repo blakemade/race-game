@@ -6,7 +6,7 @@ const pg = require('../../models/db');
 const queryText = 'SELECT * FROM race_game.manufacturers'
 
 router.get('/', (req, res) => {
-    console.log('running mfg query');
+    // console.log('running mfg query');
     
     pg.query(queryText, null, (err, qRes) => {
         if (err) {

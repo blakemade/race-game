@@ -178,7 +178,7 @@ class Results extends React.Component {
             .then(data => console.log('data logging from fetch then chain: ', data))
             .then(() => console.log("logging this.state from end of Fetch chain", JSON.stringify(this.state)));
 
-        fetch('http://localhost:3000/api/manufacturers', {
+        fetch('https://race-game.herokuapp.com/api/manufacturers' /** 'http://localhost:3000/api/manufacturers' */ , {
             credentials: 'include',
         })
             .then(response => response.json())

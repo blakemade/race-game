@@ -318,7 +318,7 @@ var Results = function (_React$Component8) {
                 return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this10.state));
             });
 
-            fetch('http://localhost:3000/api/manufacturers', {
+            fetch('https://race-game.herokuapp.com/api/manufacturers' /** 'http://localhost:3000/api/manufacturers' */, {
                 credentials: 'include'
             }).then(function (response) {
                 return response.json();
