@@ -39,77 +39,21 @@ var LikeButton = function (_React$Component) {
     return LikeButton;
 }(React.Component);
 
-var Results = function (_React$Component2) {
-    _inherits(Results, _React$Component2);
+var CarSearchButton = function (_React$Component2) {
+    _inherits(CarSearchButton, _React$Component2);
 
-    function Results(props) {
-        _classCallCheck(this, Results);
-
-        var _this3 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
-
-        _this3.state = {};
-
-        return _this3;
-    }
-
-    _createClass(Results, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this4 = this;
-
-            // let results = fetch('https://jsonplaceholder.typicode.com/posts')
-            // console.log(JSON.stringify(results));
-
-            fetch('https://jsonplaceholder.typicode.com/posts', {
-                credentials: 'include'
-
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                _this4.setState({ data: JSON.stringify(data[0]) });
-                return data;
-            }).then(function (data) {
-                return console.log('data logging from fetch then chain: ', data);
-            }).then(function () {
-                return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this4.state));
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-
-            return React.createElement(
-                'div',
-                null,
-                JSON.stringify(this.state)
-            );
-        }
-    }]);
-
-    return Results;
-}(React.Component);
-
-var CarSearchButton = function (_React$Component3) {
-    _inherits(CarSearchButton, _React$Component3);
-
-    function CarSearchButton(props) {
+    function CarSearchButton() {
         _classCallCheck(this, CarSearchButton);
 
-        var _this5 = _possibleConstructorReturn(this, (CarSearchButton.__proto__ || Object.getPrototypeOf(CarSearchButton)).call(this, props));
-
-        _this5.state = {
-            toggled: false
-        };
-        return _this5;
+        return _possibleConstructorReturn(this, (CarSearchButton.__proto__ || Object.getPrototypeOf(CarSearchButton)).apply(this, arguments));
     }
 
     _createClass(CarSearchButton, [{
         key: 'render',
         value: function render() {
-
             return React.createElement(
                 'button',
-                null,
+                { onClick: this.props.onClick },
                 'Car'
             );
         }
@@ -118,27 +62,21 @@ var CarSearchButton = function (_React$Component3) {
     return CarSearchButton;
 }(React.Component);
 
-var TrackSearchButton = function (_React$Component4) {
-    _inherits(TrackSearchButton, _React$Component4);
+var TrackSearchButton = function (_React$Component3) {
+    _inherits(TrackSearchButton, _React$Component3);
 
-    function TrackSearchButton(props) {
+    function TrackSearchButton() {
         _classCallCheck(this, TrackSearchButton);
 
-        var _this6 = _possibleConstructorReturn(this, (TrackSearchButton.__proto__ || Object.getPrototypeOf(TrackSearchButton)).call(this, props));
-
-        _this6.state = {
-            toggled: false
-        };
-        return _this6;
+        return _possibleConstructorReturn(this, (TrackSearchButton.__proto__ || Object.getPrototypeOf(TrackSearchButton)).apply(this, arguments));
     }
 
     _createClass(TrackSearchButton, [{
         key: 'render',
         value: function render() {
-
             return React.createElement(
                 'button',
-                null,
+                { onClick: this.props.onClick },
                 'Track'
             );
         }
@@ -147,127 +85,279 @@ var TrackSearchButton = function (_React$Component4) {
     return TrackSearchButton;
 }(React.Component);
 
-var LapsSearchButton = function (_React$Component5) {
-    _inherits(LapsSearchButton, _React$Component5);
+var MakeSelector = function (_React$Component4) {
+    _inherits(MakeSelector, _React$Component4);
 
-    function LapsSearchButton(props) {
-        _classCallCheck(this, LapsSearchButton);
+    function MakeSelector(props) {
+        _classCallCheck(this, MakeSelector);
 
-        var _this7 = _possibleConstructorReturn(this, (LapsSearchButton.__proto__ || Object.getPrototypeOf(LapsSearchButton)).call(this, props));
-
-        _this7.state = {
-            toggled: false
-        };
-        return _this7;
+        return _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
     }
 
-    _createClass(LapsSearchButton, [{
+    _createClass(MakeSelector, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
         key: 'render',
         value: function render() {
-
-            return React.createElement(
-                'button',
-                null,
-                'Laps'
-            );
-        }
-    }]);
-
-    return LapsSearchButton;
-}(React.Component);
-
-// class RewardSearchButton extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             toggled: false,
-//         }
-//     }
-
-//     render() {
-
-//         return (
-//             <button>Reward</button>
-//         )
-//     }
-// }
-
-
-var AppWrapper = function (_React$Component6) {
-    _inherits(AppWrapper, _React$Component6);
-
-    function AppWrapper(props) {
-        _classCallCheck(this, AppWrapper);
-
-        var _this8 = _possibleConstructorReturn(this, (AppWrapper.__proto__ || Object.getPrototypeOf(AppWrapper)).call(this, props));
-
-        _this8.state = {
-            carToggle: false,
-            trackToggle: false,
-            rewardToggle: false,
-            eventTypeToggle: false
-        };
-        return _this8;
-    }
-
-    _createClass(AppWrapper, [{
-        key: 'render',
-        value: function render() {
-            var _this9 = this;
-
+            var MOCKMAKE = ['make1', 'make2', 'make3'];
             return React.createElement(
                 'div',
                 null,
                 React.createElement(
-                    CarSearchButton,
-                    { onClick: function onClick() {
-                            _this9.setState({
-                                carToggle: !carToggle,
-                                trackToggle: false,
-                                rewardToggle: false,
-                                eventTypeToggle: false
-                            });
-                            console.log('car state toggled');
-                        } },
-                    ' '
+                    'h3',
+                    null,
+                    'Choose car make'
                 ),
+                React.createElement('input', { name: 'make-search', type: 'text' }),
                 React.createElement(
-                    TrackSearchButton,
-                    { onClick: function onClick() {
-                            return _this9.setState({
-                                carToggle: false,
-                                trackToggle: false,
-                                rewardToggle: false,
-                                eventTypeToggle: false
-                            });
-                        } },
-                    ' '
-                ),
-                React.createElement(
-                    LapsSearchButton,
-                    { onClick: function onClick() {
-                            return _this9.setState({
-                                carToggle: false,
-                                trackToggle: false,
-                                rewardToggle: false,
-                                eventTypeToggle: false
-                            });
-                        } },
-                    ' '
-                ),
-                React.createElement('br', null),
-                React.createElement(LikeButton, null),
-                React.createElement('br', null),
-                React.createElement(Results, null)
+                    'ul',
+                    null,
+                    MOCKMAKE.map(function (el) {
+                        return React.createElement(
+                            'li',
+                            { key: MOCKMAKE.indexOf(el) },
+                            el
+                        );
+                    })
+                )
             );
         }
     }]);
 
-    return AppWrapper;
+    return MakeSelector;
+}(React.Component);
+
+var CarSubMenu = function (_React$Component5) {
+    _inherits(CarSubMenu, _React$Component5);
+
+    function CarSubMenu(props) {
+        _classCallCheck(this, CarSubMenu);
+
+        var _this6 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
+
+        _this6.state = {
+            makeBool: false,
+            modelBool: false
+        };
+        _this6.makeToggleHandleClick = _this6.makeToggleHandleClick.bind(_this6);
+        _this6.modelToggleHandleClick = _this6.modelToggleHandleClick.bind(_this6);
+        return _this6;
+    }
+
+    _createClass(CarSubMenu, [{
+        key: 'makeToggleHandleClick',
+        value: function makeToggleHandleClick() {
+            this.setState({
+                makeBool: !this.state.makeBool,
+                modelBool: false
+            });
+        }
+    }, {
+        key: 'modelToggleHandleClick',
+        value: function modelToggleHandleClick() {
+            this.setState({
+                makeBool: false,
+                modelBool: !this.state.modelBool
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'button',
+                    { onClick: this.makeToggleHandleClick },
+                    'Make'
+                ),
+                React.createElement(
+                    'button',
+                    { onClick: this.modelToggleHandleClick },
+                    'Model'
+                ),
+                this.state.makeBool && React.createElement(MakeSelector, null),
+                this.state.modelBool && React.createElement(
+                    'p',
+                    null,
+                    'choose model'
+                )
+            );
+        }
+    }]);
+
+    return CarSubMenu;
+}(React.Component);
+
+var TrackSubMenu = function (_React$Component6) {
+    _inherits(TrackSubMenu, _React$Component6);
+
+    function TrackSubMenu() {
+        _classCallCheck(this, TrackSubMenu);
+
+        return _possibleConstructorReturn(this, (TrackSubMenu.__proto__ || Object.getPrototypeOf(TrackSubMenu)).apply(this, arguments));
+    }
+
+    _createClass(TrackSubMenu, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'button',
+                    null,
+                    'Track'
+                ),
+                React.createElement(
+                    'button',
+                    null,
+                    'Variant'
+                )
+            );
+        }
+    }]);
+
+    return TrackSubMenu;
+}(React.Component);
+
+var MainButtonState = function (_React$Component7) {
+    _inherits(MainButtonState, _React$Component7);
+
+    function MainButtonState(props) {
+        _classCallCheck(this, MainButtonState);
+
+        var _this8 = _possibleConstructorReturn(this, (MainButtonState.__proto__ || Object.getPrototypeOf(MainButtonState)).call(this, props));
+
+        _this8.state = {
+            carButtonBool: false,
+            trackButtonBool: false
+        };
+        _this8.carToggleHandleClick = _this8.carToggleHandleClick.bind(_this8);
+        _this8.trackToggleHandleClick = _this8.trackToggleHandleClick.bind(_this8);
+        return _this8;
+    }
+
+    _createClass(MainButtonState, [{
+        key: 'carToggleHandleClick',
+        value: function carToggleHandleClick() {
+            this.setState({
+                carButtonBool: !this.state.carButtonBool,
+                trackButtonBool: false
+            });
+            console.log("car toggled: ");
+        }
+    }, {
+        key: 'trackToggleHandleClick',
+        value: function trackToggleHandleClick() {
+            this.setState({
+                carButtonBool: false,
+                trackButtonBool: !this.state.trackButtonBool
+            });
+            console.log("track toggled: ");
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            console.log("current state: ", JSON.stringify(this.state));
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'div',
+                    { className: 'main-buttons' },
+                    React.createElement(CarSearchButton, { onClick: this.carToggleHandleClick }),
+                    React.createElement(TrackSearchButton, { onClick: this.trackToggleHandleClick })
+                ),
+                ' ',
+                React.createElement('br', null),
+                React.createElement(
+                    'div',
+                    { className: 'sub-buttons' },
+                    this.state.carButtonBool && React.createElement(CarSubMenu, null),
+                    this.state.trackButtonBool && React.createElement(TrackSubMenu, null)
+                )
+            );
+        }
+    }]);
+
+    return MainButtonState;
+}(React.Component);
+
+var Results = function (_React$Component8) {
+    _inherits(Results, _React$Component8);
+
+    function Results(props) {
+        _classCallCheck(this, Results);
+
+        var _this9 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
+
+        _this9.state = {
+            data: '',
+            data2: ''
+        };
+        return _this9;
+    }
+
+    _createClass(Results, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this10 = this;
+
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                _this10.setState({ data: JSON.stringify(data[0]) });
+                return data;
+            }).then(function (data) {
+                return console.log('data logging from fetch then chain: ', data);
+            }).then(function () {
+                return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this10.state));
+            });
+
+            fetch('https://race-game.herokuapp.com/api/manufacturers' /** 'http://localhost:3000/api/manufacturers' */, {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                _this10.setState({ data2: JSON.stringify(data[0]) });
+                return data;
+            }).then(function (data) {
+                return console.log('data2 logging from fetch then chain: ', data);
+            }).then(function () {
+                return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this10.state));
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'h3',
+                    null,
+                    'These are the results:'
+                ),
+                JSON.stringify(this.state.data),
+                JSON.stringify(this.state.data2)
+            );
+        }
+    }]);
+
+    return Results;
 }(React.Component);
 
 function ContainerWrapper() {
-    return React.createElement(AppWrapper, null);
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(MainButtonState, null),
+        React.createElement(Results, null)
+    );
 }
 
 var domContainer = document.querySelector('#container');
