@@ -42,26 +42,82 @@ class TrackSearchButton extends React.Component {
 class MakeSelector extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            data1: []
+        };
     }
 
     componentDidMount() {
 
+        fetch(
+         'https://race-game.herokuapp.com/api/manufacturers'
+        //  'http://localhost:3000/api/manufacturers'  
+         , {
+            credentials: 'omit',
+        })
+            .then(response => response.json())
+            .then((data) => {
+                // const filteredData = 
+                this.setState({ data1: data });
+                return data;
+            })
+            .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
     }
 
     render() {
-        const MOCKMAKE = ['make1', 'make2', 'make3'];
+        // const MOCKMAKE = ['make1', 'make2', 'make3'];
         return (
             <div>
                 <h3>Choose car make</h3>
                 <input name="make-search" type="text" />
                 <ul>
-                    {MOCKMAKE.map(el => <li key={MOCKMAKE.indexOf(el)}>{el}</li>)}
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.manufacturer_name)}</li>)}
                 </ul>
             </div>
         )
     }
 }
 
+class ModelSelector extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data1: []
+        };
+    }
+
+    componentDidMount() {
+
+        fetch(
+         'https://race-game.herokuapp.com/api/cars'
+        //  'http://localhost:3000/api/manufacturers'  
+         , {
+            credentials: 'omit',
+        })
+            .then(response => response.json())
+            .then((data) => {
+                // const filteredData = 
+                this.setState({ data1: data });
+                return data;
+            })
+            .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+    }
+
+    render() {
+        // const MOCKMAKE = ['make1', 'make2', 'make3'];
+        return (
+            <div>
+                <h3>Choose car model</h3>
+                <input name="make-search" type="text" />
+                <ul>
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.manufacturer_name)}</li>)}
+                </ul>
+            </div>
+        )
+    }
+}
 
 class CarSubMenu extends React.Component {
     constructor(props) {
@@ -94,7 +150,7 @@ class CarSubMenu extends React.Component {
                 <button onClick={this.makeToggleHandleClick}>Make</button>
                 <button onClick={this.modelToggleHandleClick}>Model</button>
                 {this.state.makeBool && <MakeSelector />}
-                {this.state.modelBool && <p>choose model</p>}
+                {this.state.modelBool && <ModelSelector />}
             </div>
         )
     }
@@ -161,7 +217,7 @@ class Results extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: '',
+            data1: '',
             data2: ''
         }
     }
@@ -172,14 +228,17 @@ class Results extends React.Component {
         })
             .then(response => response.json())
             .then((data) => {
-                this.setState({ data: JSON.stringify(data[0]) });
+                this.setState({ data1: JSON.stringify(data[0]) });
                 return data;
             })
             .then(data => console.log('data logging from fetch then chain: ', data))
-            .then(() => console.log("logging this.state from end of Fetch chain", JSON.stringify(this.state)));
+            .then(() => console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(this.state)));
 
-        fetch('https://race-game.herokuapp.com/api/manufacturers' /** 'http://localhost:3000/api/manufacturers' */ , {
-            credentials: 'include',
+        fetch(
+         'https://race-game.herokuapp.com/api/manufacturers'
+        //  'http://localhost:3000/api/manufacturers'  
+         , {
+            credentials: 'omit',
         })
             .then(response => response.json())
             .then((data) => {
@@ -187,14 +246,14 @@ class Results extends React.Component {
                 return data;
             })
             .then(data => console.log('data2 logging from fetch then chain: ', data))
-            .then(() => console.log("logging this.state from end of Fetch chain", JSON.stringify(this.state)))
+            .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
     }
 
     render() {
         return (
             <div>
                 <h3>These are the results:</h3>
-                {JSON.stringify(this.state.data)}
+                {JSON.stringify(this.state.data1)}
                 {JSON.stringify(this.state.data2)}
             </div>
         )

@@ -3,7 +3,7 @@ const router = express.Router();
 const pg = require('../../models/db');
 // const express = require('express');
 
-const queryText = 'SELECT * FROM race_game.manufacturers'
+const queryText = 'SELECT * FROM race_game.cars'
 
 
 

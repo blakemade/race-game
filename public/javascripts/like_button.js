@@ -91,16 +91,40 @@ var MakeSelector = function (_React$Component4) {
     function MakeSelector(props) {
         _classCallCheck(this, MakeSelector);
 
-        return _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
+
+        _this5.state = {
+            data1: []
+        };
+        return _this5;
     }
 
     _createClass(MakeSelector, [{
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            var _this6 = this;
+
+            fetch('https://race-game.herokuapp.com/api/manufacturers'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                // const filteredData = 
+                _this6.setState({ data1: data });
+                return data;
+            }).then(function (data) {
+                return console.log('data1 logging from MakeSelector fetch then chain: ', data);
+            });
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        }
     }, {
         key: 'render',
         value: function render() {
-            var MOCKMAKE = ['make1', 'make2', 'make3'];
+            var _this7 = this;
+
+            // const MOCKMAKE = ['make1', 'make2', 'make3'];
             return React.createElement(
                 'div',
                 null,
@@ -113,11 +137,11 @@ var MakeSelector = function (_React$Component4) {
                 React.createElement(
                     'ul',
                     null,
-                    MOCKMAKE.map(function (el) {
+                    this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: MOCKMAKE.indexOf(el) },
-                            el
+                            { key: _this7.state.data1.indexOf(el) },
+                            el.manufacturer_name
                         );
                     })
                 )
@@ -128,21 +152,88 @@ var MakeSelector = function (_React$Component4) {
     return MakeSelector;
 }(React.Component);
 
-var CarSubMenu = function (_React$Component5) {
-    _inherits(CarSubMenu, _React$Component5);
+var ModelSelector = function (_React$Component5) {
+    _inherits(ModelSelector, _React$Component5);
+
+    function ModelSelector(props) {
+        _classCallCheck(this, ModelSelector);
+
+        var _this8 = _possibleConstructorReturn(this, (ModelSelector.__proto__ || Object.getPrototypeOf(ModelSelector)).call(this, props));
+
+        _this8.state = {
+            data1: []
+        };
+        return _this8;
+    }
+
+    _createClass(ModelSelector, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this9 = this;
+
+            fetch('https://race-game.herokuapp.com/api/cars'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                // const filteredData = 
+                _this9.setState({ data1: data });
+                return data;
+            }).then(function (data) {
+                return console.log('data1 logging from MakeSelector fetch then chain: ', data);
+            });
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this10 = this;
+
+            // const MOCKMAKE = ['make1', 'make2', 'make3'];
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'h3',
+                    null,
+                    'Choose car model'
+                ),
+                React.createElement('input', { name: 'make-search', type: 'text' }),
+                React.createElement(
+                    'ul',
+                    null,
+                    this.state.data1.map(function (el) {
+                        return React.createElement(
+                            'li',
+                            { key: _this10.state.data1.indexOf(el) },
+                            el.manufacturer_name
+                        );
+                    })
+                )
+            );
+        }
+    }]);
+
+    return ModelSelector;
+}(React.Component);
+
+var CarSubMenu = function (_React$Component6) {
+    _inherits(CarSubMenu, _React$Component6);
 
     function CarSubMenu(props) {
         _classCallCheck(this, CarSubMenu);
 
-        var _this6 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
+        var _this11 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
 
-        _this6.state = {
+        _this11.state = {
             makeBool: false,
             modelBool: false
         };
-        _this6.makeToggleHandleClick = _this6.makeToggleHandleClick.bind(_this6);
-        _this6.modelToggleHandleClick = _this6.modelToggleHandleClick.bind(_this6);
-        return _this6;
+        _this11.makeToggleHandleClick = _this11.makeToggleHandleClick.bind(_this11);
+        _this11.modelToggleHandleClick = _this11.modelToggleHandleClick.bind(_this11);
+        return _this11;
     }
 
     _createClass(CarSubMenu, [{
@@ -178,11 +269,7 @@ var CarSubMenu = function (_React$Component5) {
                     'Model'
                 ),
                 this.state.makeBool && React.createElement(MakeSelector, null),
-                this.state.modelBool && React.createElement(
-                    'p',
-                    null,
-                    'choose model'
-                )
+                this.state.modelBool && React.createElement(ModelSelector, null)
             );
         }
     }]);
@@ -190,8 +277,8 @@ var CarSubMenu = function (_React$Component5) {
     return CarSubMenu;
 }(React.Component);
 
-var TrackSubMenu = function (_React$Component6) {
-    _inherits(TrackSubMenu, _React$Component6);
+var TrackSubMenu = function (_React$Component7) {
+    _inherits(TrackSubMenu, _React$Component7);
 
     function TrackSubMenu() {
         _classCallCheck(this, TrackSubMenu);
@@ -222,21 +309,21 @@ var TrackSubMenu = function (_React$Component6) {
     return TrackSubMenu;
 }(React.Component);
 
-var MainButtonState = function (_React$Component7) {
-    _inherits(MainButtonState, _React$Component7);
+var MainButtonState = function (_React$Component8) {
+    _inherits(MainButtonState, _React$Component8);
 
     function MainButtonState(props) {
         _classCallCheck(this, MainButtonState);
 
-        var _this8 = _possibleConstructorReturn(this, (MainButtonState.__proto__ || Object.getPrototypeOf(MainButtonState)).call(this, props));
+        var _this13 = _possibleConstructorReturn(this, (MainButtonState.__proto__ || Object.getPrototypeOf(MainButtonState)).call(this, props));
 
-        _this8.state = {
+        _this13.state = {
             carButtonBool: false,
             trackButtonBool: false
         };
-        _this8.carToggleHandleClick = _this8.carToggleHandleClick.bind(_this8);
-        _this8.trackToggleHandleClick = _this8.trackToggleHandleClick.bind(_this8);
-        return _this8;
+        _this13.carToggleHandleClick = _this13.carToggleHandleClick.bind(_this13);
+        _this13.trackToggleHandleClick = _this13.trackToggleHandleClick.bind(_this13);
+        return _this13;
     }
 
     _createClass(MainButtonState, [{
@@ -285,50 +372,52 @@ var MainButtonState = function (_React$Component7) {
     return MainButtonState;
 }(React.Component);
 
-var Results = function (_React$Component8) {
-    _inherits(Results, _React$Component8);
+var Results = function (_React$Component9) {
+    _inherits(Results, _React$Component9);
 
     function Results(props) {
         _classCallCheck(this, Results);
 
-        var _this9 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
+        var _this14 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
 
-        _this9.state = {
-            data: '',
+        _this14.state = {
+            data1: '',
             data2: ''
         };
-        return _this9;
+        return _this14;
     }
 
     _createClass(Results, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this10 = this;
+            var _this15 = this;
 
             fetch('https://jsonplaceholder.typicode.com/posts', {
                 credentials: 'include'
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
-                _this10.setState({ data: JSON.stringify(data[0]) });
+                _this15.setState({ data1: JSON.stringify(data[0]) });
                 return data;
             }).then(function (data) {
                 return console.log('data logging from fetch then chain: ', data);
             }).then(function () {
-                return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this10.state));
+                return console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(_this15.state));
             });
 
-            fetch('https://race-game.herokuapp.com/api/manufacturers' /** 'http://localhost:3000/api/manufacturers' */, {
-                credentials: 'include'
+            fetch('https://race-game.herokuapp.com/api/manufacturers'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit'
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
-                _this10.setState({ data2: JSON.stringify(data[0]) });
+                _this15.setState({ data2: JSON.stringify(data[0]) });
                 return data;
             }).then(function (data) {
                 return console.log('data2 logging from fetch then chain: ', data);
             }).then(function () {
-                return console.log("logging this.state from end of Fetch chain", JSON.stringify(_this10.state));
+                return console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(_this15.state));
             });
         }
     }, {
@@ -342,7 +431,7 @@ var Results = function (_React$Component8) {
                     null,
                     'These are the results:'
                 ),
-                JSON.stringify(this.state.data),
+                JSON.stringify(this.state.data1),
                 JSON.stringify(this.state.data2)
             );
         }
