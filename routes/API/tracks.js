@@ -3,7 +3,7 @@ const router = express.Router();
 const pg = require('../../models/db');
 // const express = require('express');
 
-const queryText = "SELECT cars.model, cars.owned FROM race_game.cars WHERE cars.owned='t' ORDER BY cars";
+const queryText = "SELECT tracks.track_name FROM race_game.tracks ORDER BY track_name";
 
 
 
@@ -22,4 +22,4 @@ router.get('/', (req, res) => {
     })
 });
 
-module.exports = router;
+module.exports = router

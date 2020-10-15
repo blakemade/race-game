@@ -208,7 +208,7 @@ var ModelSelector = function (_React$Component5) {
                         return React.createElement(
                             'li',
                             { key: _this10.state.data1.indexOf(el) },
-                            el.manufacturer_name
+                            el.model
                         );
                     })
                 )

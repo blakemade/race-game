@@ -112,7 +112,7 @@ class ModelSelector extends React.Component {
                 <h3>Choose car model</h3>
                 <input name="make-search" type="text" />
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.manufacturer_name)}</li>)}
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.model)}</li>)}
                 </ul>
             </div>
         )
