@@ -12,6 +12,6 @@ router.use('/', pg);
 router.use('/users', users);
 router.use('/api/manufacturers', apiMfg);
 router.use('/api/cars', apiCars);
-router.use('./api/tracks', apiTracks);
+router.use('/api/tracks', apiTracks);
 
 module.exports = router;
