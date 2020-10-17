@@ -287,7 +287,7 @@ class MainButtonState extends React.Component {
         this.setState({
             carButtonBool: false,
             trackButtonBool: false,
-            lapsButtonBool: !this.state.trackButtonBool
+            lapsButtonBool: !this.state.lapsButtonBool
         })
         console.log("laps toggled: ");
     }

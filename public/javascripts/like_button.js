@@ -512,7 +512,7 @@ var MainButtonState = function (_React$Component12) {
             this.setState({
                 carButtonBool: false,
                 trackButtonBool: false,
-                lapsButtonBool: !this.state.trackButtonBool
+                lapsButtonBool: !this.state.lapsButtonBool
             });
             console.log("laps toggled: ");
         }
