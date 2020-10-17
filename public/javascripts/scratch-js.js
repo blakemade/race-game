@@ -39,29 +39,6 @@ var AppWrapper = function (_React$Component) {
     return AppWrapper;
 }(React.Component);
 
-var LapsSearchButton = function (_React$Component2) {
-    _inherits(LapsSearchButton, _React$Component2);
-
-    function LapsSearchButton(props) {
-        _classCallCheck(this, LapsSearchButton);
-
-        return _possibleConstructorReturn(this, (LapsSearchButton.__proto__ || Object.getPrototypeOf(LapsSearchButton)).call(this, props));
-    }
-
-    _createClass(LapsSearchButton, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "button",
-                { onClick: this.props.onClick },
-                "Laps"
-            );
-        }
-    }]);
-
-    return LapsSearchButton;
-}(React.Component);
-
 function Button(props) {
     return React.createElement(
         "button",

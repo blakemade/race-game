@@ -39,6 +39,14 @@ class TrackSearchButton extends React.Component {
     }
 }
 
+class LapsSearchButton extends React.Component {
+    render() {
+        return (
+            <button onClick={this.props.onClick}>Laps</button>
+        )
+    }
+}
+
 class MakeSelector extends React.Component {
     constructor(props) {
         super(props);
@@ -50,11 +58,11 @@ class MakeSelector extends React.Component {
     componentDidMount() {
 
         fetch(
-         'https://race-game.herokuapp.com/api/manufacturers'
-        //  'http://localhost:3000/api/manufacturers'  
-         , {
-            credentials: 'omit',
-        })
+            'https://race-game.herokuapp.com/api/manufacturers'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit',
+            })
             .then(response => response.json())
             .then((data) => {
                 // const filteredData = 
@@ -62,7 +70,7 @@ class MakeSelector extends React.Component {
                 return data;
             })
             .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
-            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
     }
 
     render() {
@@ -70,7 +78,7 @@ class MakeSelector extends React.Component {
         return (
             <div>
                 <h3>Choose car make</h3>
-                <input name="make-search" type="text" />
+                <input name="make-search" type="text" /><button>Search</button>
                 <ul>
                     {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.manufacturer_name)}</li>)}
                 </ul>
@@ -90,11 +98,11 @@ class ModelSelector extends React.Component {
     componentDidMount() {
 
         fetch(
-         'https://race-game.herokuapp.com/api/cars'
-        //  'http://localhost:3000/api/manufacturers'  
-         , {
-            credentials: 'omit',
-        })
+            'https://race-game.herokuapp.com/api/cars'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit',
+            })
             .then(response => response.json())
             .then((data) => {
                 // const filteredData = 
@@ -102,7 +110,7 @@ class ModelSelector extends React.Component {
                 return data;
             })
             .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
-            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
     }
 
     render() {
@@ -110,10 +118,66 @@ class ModelSelector extends React.Component {
         return (
             <div>
                 <h3>Choose car model</h3>
-                <input name="make-search" type="text" />
+                <input name="make-search" type="text" /><button>Search</button>
                 <ul>
                     {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.model)}</li>)}
                 </ul>
+            </div>
+        )
+    }
+}
+
+class TrackSelector extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data1: []
+        };
+    }
+
+    componentDidMount() {
+        // const url = new URL('https://race-game.herokuapp.com/tracks'
+        
+        fetch(
+            'https://race-game.herokuapp.com/api/tracks', 
+            {
+                credentials: 'omit',
+            })
+            .then(response => response.json())
+            .then((data) => {
+                // const filteredData = 
+                this.setState({ data1: data });
+                return data;
+            })
+            .then(data => console.log('data1 logging from TrackSelector fetch then chain: ', data));
+        // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+    }
+
+    render() {
+        // const MOCKMAKE = ['make1', 'make2', 'make3'];
+        return (
+            <div>
+                <h3>Choose track</h3>
+                <input name="track-search" type="text" /><button>Search</button>
+                <ul>
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.track_name)}</li>)}
+                </ul>
+            </div>
+        )
+    }
+}
+
+class LapsSelector extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>Select minimum number of laps</h3>
+                <input type="text"></input><button>submit</button>
             </div>
         )
     }
@@ -157,11 +221,32 @@ class CarSubMenu extends React.Component {
 }
 
 class TrackSubMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            // data1: [],
+            track : ''
+        }
+    }
+
     render() {
         return (
             <div>
-                <button>Track</button>
-                <button>Variant</button>
+                <TrackSelector />
+            </div>
+        )
+    }
+}
+
+class LapsSubMenu extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <LapsSelector />
             </div>
         )
     }
@@ -172,16 +257,19 @@ class MainButtonState extends React.Component {
         super(props);
         this.state = {
             carButtonBool: false,
-            trackButtonBool: false
+            trackButtonBool: false,
+            lapsButtonBool: false
         }
         this.carToggleHandleClick = this.carToggleHandleClick.bind(this);
         this.trackToggleHandleClick = this.trackToggleHandleClick.bind(this);
+        this.lapsToggleHandleClick = this.lapsToggleHandleClick.bind(this);
     }
 
     carToggleHandleClick() {
         this.setState({
             carButtonBool: !this.state.carButtonBool,
-            trackButtonBool: false
+            trackButtonBool: false,
+            lapsButtonBool: false
         });
         console.log("car toggled: ");
     }
@@ -189,9 +277,19 @@ class MainButtonState extends React.Component {
     trackToggleHandleClick() {
         this.setState({
             carButtonBool: false,
-            trackButtonBool: !this.state.trackButtonBool
+            trackButtonBool: !this.state.trackButtonBool,
+            lapsButtonBool: false
         })
         console.log("track toggled: ");
+    }
+
+    lapsToggleHandleClick() {
+        this.setState({
+            carButtonBool: false,
+            trackButtonBool: false,
+            lapsButtonBool: !this.state.trackButtonBool
+        })
+        console.log("laps toggled: ");
     }
 
     render() {
@@ -201,10 +299,12 @@ class MainButtonState extends React.Component {
                 <div className="main-buttons">
                     <CarSearchButton onClick={this.carToggleHandleClick} />
                     <TrackSearchButton onClick={this.trackToggleHandleClick} />
+                    <LapsSearchButton onClick={this.lapsToggleHandleClick} />
                 </div> <br></br>
                 <div className="sub-buttons">
                     {this.state.carButtonBool && <CarSubMenu />}
                     {this.state.trackButtonBool && <TrackSubMenu />}
+                    {this.state.lapsButtonBool && <LapsSubMenu />}
                 </div>
             </div>
         )
@@ -235,11 +335,11 @@ class Results extends React.Component {
             .then(() => console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(this.state)));
 
         fetch(
-         'https://race-game.herokuapp.com/api/manufacturers'
-        //  'http://localhost:3000/api/manufacturers'  
-         , {
-            credentials: 'omit',
-        })
+            'https://race-game.herokuapp.com/api/manufacturers'
+            //  'http://localhost:3000/api/manufacturers'  
+            , {
+                credentials: 'omit',
+            })
             .then(response => response.json())
             .then((data) => {
                 this.setState({ data2: JSON.stringify(data[0]) });

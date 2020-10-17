@@ -85,24 +85,47 @@ var TrackSearchButton = function (_React$Component3) {
     return TrackSearchButton;
 }(React.Component);
 
-var MakeSelector = function (_React$Component4) {
-    _inherits(MakeSelector, _React$Component4);
+var LapsSearchButton = function (_React$Component4) {
+    _inherits(LapsSearchButton, _React$Component4);
+
+    function LapsSearchButton() {
+        _classCallCheck(this, LapsSearchButton);
+
+        return _possibleConstructorReturn(this, (LapsSearchButton.__proto__ || Object.getPrototypeOf(LapsSearchButton)).apply(this, arguments));
+    }
+
+    _createClass(LapsSearchButton, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'button',
+                { onClick: this.props.onClick },
+                'Laps'
+            );
+        }
+    }]);
+
+    return LapsSearchButton;
+}(React.Component);
+
+var MakeSelector = function (_React$Component5) {
+    _inherits(MakeSelector, _React$Component5);
 
     function MakeSelector(props) {
         _classCallCheck(this, MakeSelector);
 
-        var _this5 = _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
 
-        _this5.state = {
+        _this6.state = {
             data1: []
         };
-        return _this5;
+        return _this6;
     }
 
     _createClass(MakeSelector, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this6 = this;
+            var _this7 = this;
 
             fetch('https://race-game.herokuapp.com/api/manufacturers'
             //  'http://localhost:3000/api/manufacturers'  
@@ -112,7 +135,7 @@ var MakeSelector = function (_React$Component4) {
                 return response.json();
             }).then(function (data) {
                 // const filteredData = 
-                _this6.setState({ data1: data });
+                _this7.setState({ data1: data });
                 return data;
             }).then(function (data) {
                 return console.log('data1 logging from MakeSelector fetch then chain: ', data);
@@ -122,7 +145,7 @@ var MakeSelector = function (_React$Component4) {
     }, {
         key: 'render',
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             // const MOCKMAKE = ['make1', 'make2', 'make3'];
             return React.createElement(
@@ -135,12 +158,17 @@ var MakeSelector = function (_React$Component4) {
                 ),
                 React.createElement('input', { name: 'make-search', type: 'text' }),
                 React.createElement(
+                    'button',
+                    null,
+                    'Search'
+                ),
+                React.createElement(
                     'ul',
                     null,
                     this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: _this7.state.data1.indexOf(el) },
+                            { key: _this8.state.data1.indexOf(el) },
                             el.manufacturer_name
                         );
                     })
@@ -152,24 +180,24 @@ var MakeSelector = function (_React$Component4) {
     return MakeSelector;
 }(React.Component);
 
-var ModelSelector = function (_React$Component5) {
-    _inherits(ModelSelector, _React$Component5);
+var ModelSelector = function (_React$Component6) {
+    _inherits(ModelSelector, _React$Component6);
 
     function ModelSelector(props) {
         _classCallCheck(this, ModelSelector);
 
-        var _this8 = _possibleConstructorReturn(this, (ModelSelector.__proto__ || Object.getPrototypeOf(ModelSelector)).call(this, props));
+        var _this9 = _possibleConstructorReturn(this, (ModelSelector.__proto__ || Object.getPrototypeOf(ModelSelector)).call(this, props));
 
-        _this8.state = {
+        _this9.state = {
             data1: []
         };
-        return _this8;
+        return _this9;
     }
 
     _createClass(ModelSelector, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this9 = this;
+            var _this10 = this;
 
             fetch('https://race-game.herokuapp.com/api/cars'
             //  'http://localhost:3000/api/manufacturers'  
@@ -179,7 +207,7 @@ var ModelSelector = function (_React$Component5) {
                 return response.json();
             }).then(function (data) {
                 // const filteredData = 
-                _this9.setState({ data1: data });
+                _this10.setState({ data1: data });
                 return data;
             }).then(function (data) {
                 return console.log('data1 logging from MakeSelector fetch then chain: ', data);
@@ -189,7 +217,7 @@ var ModelSelector = function (_React$Component5) {
     }, {
         key: 'render',
         value: function render() {
-            var _this10 = this;
+            var _this11 = this;
 
             // const MOCKMAKE = ['make1', 'make2', 'make3'];
             return React.createElement(
@@ -202,12 +230,17 @@ var ModelSelector = function (_React$Component5) {
                 ),
                 React.createElement('input', { name: 'make-search', type: 'text' }),
                 React.createElement(
+                    'button',
+                    null,
+                    'Search'
+                ),
+                React.createElement(
                     'ul',
                     null,
                     this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: _this10.state.data1.indexOf(el) },
+                            { key: _this11.state.data1.indexOf(el) },
                             el.model
                         );
                     })
@@ -219,21 +252,126 @@ var ModelSelector = function (_React$Component5) {
     return ModelSelector;
 }(React.Component);
 
-var CarSubMenu = function (_React$Component6) {
-    _inherits(CarSubMenu, _React$Component6);
+var TrackSelector = function (_React$Component7) {
+    _inherits(TrackSelector, _React$Component7);
+
+    function TrackSelector(props) {
+        _classCallCheck(this, TrackSelector);
+
+        var _this12 = _possibleConstructorReturn(this, (TrackSelector.__proto__ || Object.getPrototypeOf(TrackSelector)).call(this, props));
+
+        _this12.state = {
+            data1: []
+        };
+        return _this12;
+    }
+
+    _createClass(TrackSelector, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this13 = this;
+
+            // const url = new URL('https://race-game.herokuapp.com/tracks'
+
+            fetch('https://race-game.herokuapp.com/api/tracks', {
+                credentials: 'omit'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                // const filteredData = 
+                _this13.setState({ data1: data });
+                return data;
+            }).then(function (data) {
+                return console.log('data1 logging from TrackSelector fetch then chain: ', data);
+            });
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this14 = this;
+
+            // const MOCKMAKE = ['make1', 'make2', 'make3'];
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'h3',
+                    null,
+                    'Choose track'
+                ),
+                React.createElement('input', { name: 'track-search', type: 'text' }),
+                React.createElement(
+                    'button',
+                    null,
+                    'Search'
+                ),
+                React.createElement(
+                    'ul',
+                    null,
+                    this.state.data1.map(function (el) {
+                        return React.createElement(
+                            'li',
+                            { key: _this14.state.data1.indexOf(el) },
+                            el.track_name
+                        );
+                    })
+                )
+            );
+        }
+    }]);
+
+    return TrackSelector;
+}(React.Component);
+
+var LapsSelector = function (_React$Component8) {
+    _inherits(LapsSelector, _React$Component8);
+
+    function LapsSelector(props) {
+        _classCallCheck(this, LapsSelector);
+
+        return _possibleConstructorReturn(this, (LapsSelector.__proto__ || Object.getPrototypeOf(LapsSelector)).call(this, props));
+    }
+
+    _createClass(LapsSelector, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'h3',
+                    null,
+                    'Select minimum number of laps'
+                ),
+                React.createElement('input', { type: 'text' }),
+                React.createElement(
+                    'button',
+                    null,
+                    'submit'
+                )
+            );
+        }
+    }]);
+
+    return LapsSelector;
+}(React.Component);
+
+var CarSubMenu = function (_React$Component9) {
+    _inherits(CarSubMenu, _React$Component9);
 
     function CarSubMenu(props) {
         _classCallCheck(this, CarSubMenu);
 
-        var _this11 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
+        var _this16 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
 
-        _this11.state = {
+        _this16.state = {
             makeBool: false,
             modelBool: false
         };
-        _this11.makeToggleHandleClick = _this11.makeToggleHandleClick.bind(_this11);
-        _this11.modelToggleHandleClick = _this11.modelToggleHandleClick.bind(_this11);
-        return _this11;
+        _this16.makeToggleHandleClick = _this16.makeToggleHandleClick.bind(_this16);
+        _this16.modelToggleHandleClick = _this16.modelToggleHandleClick.bind(_this16);
+        return _this16;
     }
 
     _createClass(CarSubMenu, [{
@@ -277,13 +415,19 @@ var CarSubMenu = function (_React$Component6) {
     return CarSubMenu;
 }(React.Component);
 
-var TrackSubMenu = function (_React$Component7) {
-    _inherits(TrackSubMenu, _React$Component7);
+var TrackSubMenu = function (_React$Component10) {
+    _inherits(TrackSubMenu, _React$Component10);
 
-    function TrackSubMenu() {
+    function TrackSubMenu(props) {
         _classCallCheck(this, TrackSubMenu);
 
-        return _possibleConstructorReturn(this, (TrackSubMenu.__proto__ || Object.getPrototypeOf(TrackSubMenu)).apply(this, arguments));
+        var _this17 = _possibleConstructorReturn(this, (TrackSubMenu.__proto__ || Object.getPrototypeOf(TrackSubMenu)).call(this, props));
+
+        _this17.state = {
+            // data1: [],
+            track: ''
+        };
+        return _this17;
     }
 
     _createClass(TrackSubMenu, [{
@@ -292,16 +436,7 @@ var TrackSubMenu = function (_React$Component7) {
             return React.createElement(
                 'div',
                 null,
-                React.createElement(
-                    'button',
-                    null,
-                    'Track'
-                ),
-                React.createElement(
-                    'button',
-                    null,
-                    'Variant'
-                )
+                React.createElement(TrackSelector, null)
             );
         }
     }]);
@@ -309,21 +444,46 @@ var TrackSubMenu = function (_React$Component7) {
     return TrackSubMenu;
 }(React.Component);
 
-var MainButtonState = function (_React$Component8) {
-    _inherits(MainButtonState, _React$Component8);
+var LapsSubMenu = function (_React$Component11) {
+    _inherits(LapsSubMenu, _React$Component11);
+
+    function LapsSubMenu(props) {
+        _classCallCheck(this, LapsSubMenu);
+
+        return _possibleConstructorReturn(this, (LapsSubMenu.__proto__ || Object.getPrototypeOf(LapsSubMenu)).call(this, props));
+    }
+
+    _createClass(LapsSubMenu, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(LapsSelector, null)
+            );
+        }
+    }]);
+
+    return LapsSubMenu;
+}(React.Component);
+
+var MainButtonState = function (_React$Component12) {
+    _inherits(MainButtonState, _React$Component12);
 
     function MainButtonState(props) {
         _classCallCheck(this, MainButtonState);
 
-        var _this13 = _possibleConstructorReturn(this, (MainButtonState.__proto__ || Object.getPrototypeOf(MainButtonState)).call(this, props));
+        var _this19 = _possibleConstructorReturn(this, (MainButtonState.__proto__ || Object.getPrototypeOf(MainButtonState)).call(this, props));
 
-        _this13.state = {
+        _this19.state = {
             carButtonBool: false,
-            trackButtonBool: false
+            trackButtonBool: false,
+            lapsButtonBool: false
         };
-        _this13.carToggleHandleClick = _this13.carToggleHandleClick.bind(_this13);
-        _this13.trackToggleHandleClick = _this13.trackToggleHandleClick.bind(_this13);
-        return _this13;
+        _this19.carToggleHandleClick = _this19.carToggleHandleClick.bind(_this19);
+        _this19.trackToggleHandleClick = _this19.trackToggleHandleClick.bind(_this19);
+        _this19.lapsToggleHandleClick = _this19.lapsToggleHandleClick.bind(_this19);
+        return _this19;
     }
 
     _createClass(MainButtonState, [{
@@ -331,7 +491,8 @@ var MainButtonState = function (_React$Component8) {
         value: function carToggleHandleClick() {
             this.setState({
                 carButtonBool: !this.state.carButtonBool,
-                trackButtonBool: false
+                trackButtonBool: false,
+                lapsButtonBool: false
             });
             console.log("car toggled: ");
         }
@@ -340,9 +501,20 @@ var MainButtonState = function (_React$Component8) {
         value: function trackToggleHandleClick() {
             this.setState({
                 carButtonBool: false,
-                trackButtonBool: !this.state.trackButtonBool
+                trackButtonBool: !this.state.trackButtonBool,
+                lapsButtonBool: false
             });
             console.log("track toggled: ");
+        }
+    }, {
+        key: 'lapsToggleHandleClick',
+        value: function lapsToggleHandleClick() {
+            this.setState({
+                carButtonBool: false,
+                trackButtonBool: false,
+                lapsButtonBool: !this.state.trackButtonBool
+            });
+            console.log("laps toggled: ");
         }
     }, {
         key: 'render',
@@ -355,7 +527,8 @@ var MainButtonState = function (_React$Component8) {
                     'div',
                     { className: 'main-buttons' },
                     React.createElement(CarSearchButton, { onClick: this.carToggleHandleClick }),
-                    React.createElement(TrackSearchButton, { onClick: this.trackToggleHandleClick })
+                    React.createElement(TrackSearchButton, { onClick: this.trackToggleHandleClick }),
+                    React.createElement(LapsSearchButton, { onClick: this.lapsToggleHandleClick })
                 ),
                 ' ',
                 React.createElement('br', null),
@@ -363,7 +536,8 @@ var MainButtonState = function (_React$Component8) {
                     'div',
                     { className: 'sub-buttons' },
                     this.state.carButtonBool && React.createElement(CarSubMenu, null),
-                    this.state.trackButtonBool && React.createElement(TrackSubMenu, null)
+                    this.state.trackButtonBool && React.createElement(TrackSubMenu, null),
+                    this.state.lapsButtonBool && React.createElement(LapsSubMenu, null)
                 )
             );
         }
@@ -372,37 +546,37 @@ var MainButtonState = function (_React$Component8) {
     return MainButtonState;
 }(React.Component);
 
-var Results = function (_React$Component9) {
-    _inherits(Results, _React$Component9);
+var Results = function (_React$Component13) {
+    _inherits(Results, _React$Component13);
 
     function Results(props) {
         _classCallCheck(this, Results);
 
-        var _this14 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
+        var _this20 = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
 
-        _this14.state = {
+        _this20.state = {
             data1: '',
             data2: ''
         };
-        return _this14;
+        return _this20;
     }
 
     _createClass(Results, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this15 = this;
+            var _this21 = this;
 
             fetch('https://jsonplaceholder.typicode.com/posts', {
                 credentials: 'include'
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
-                _this15.setState({ data1: JSON.stringify(data[0]) });
+                _this21.setState({ data1: JSON.stringify(data[0]) });
                 return data;
             }).then(function (data) {
                 return console.log('data logging from fetch then chain: ', data);
             }).then(function () {
-                return console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(_this15.state));
+                return console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(_this21.state));
             });
 
             fetch('https://race-game.herokuapp.com/api/manufacturers'
@@ -412,12 +586,12 @@ var Results = function (_React$Component9) {
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
-                _this15.setState({ data2: JSON.stringify(data[0]) });
+                _this21.setState({ data2: JSON.stringify(data[0]) });
                 return data;
             }).then(function (data) {
                 return console.log('data2 logging from fetch then chain: ', data);
             }).then(function () {
-                return console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(_this15.state));
+                return console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(_this21.state));
             });
         }
     }, {

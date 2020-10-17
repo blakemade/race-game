@@ -33,17 +33,7 @@ class AppWrapper extends React.Component {
 
 
 
-class LapsSearchButton extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
-    render() {
-        return (
-            <button onClick={this.props.onClick}>Laps</button>
-        )
-    }
-}
 
 
 

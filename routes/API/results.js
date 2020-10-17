@@ -30,11 +30,8 @@ events.laps
 `;
 
 
-router.get('/:carId', (req, res) => {
-    // console.log('running mfg query');
-    const { carId } = req.params;
-    console.log(carId);
-    pg.query(queryText, [req.params.carId], (err, qRes) => {
+router.get('/', (req, res) => {
+    pg.query(queryText, null, (err, qRes) => {
         if (err) {
             return console.error(err);
         } else {
