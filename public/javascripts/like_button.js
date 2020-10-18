@@ -261,7 +261,8 @@ var TrackSelector = function (_React$Component7) {
         var _this12 = _possibleConstructorReturn(this, (TrackSelector.__proto__ || Object.getPrototypeOf(TrackSelector)).call(this, props));
 
         _this12.state = {
-            data1: []
+            data1: [],
+            track: 0
         };
         return _this12;
     }
@@ -312,7 +313,16 @@ var TrackSelector = function (_React$Component7) {
                     this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: _this14.state.data1.indexOf(el) },
+                            { key: _this14.state.data1.indexOf(el).toString(),
+                                id: _this14.state.data1.indexOf(el).toString(),
+                                'some-attribute': _this14.state.data1.indexOf(el).toString(),
+                                onClick: function onClick() {
+                                    _this14.setState({
+                                        track: document.getElementById(_this14.state.data1.indexOf(el).toString()).innerHTML
+                                    });
+                                    console.log(JSON.stringify(_this14.state.track));
+                                }
+                            },
                             el.track_name
                         );
                     })
@@ -366,7 +376,7 @@ var CarSubMenu = function (_React$Component9) {
         var _this16 = _possibleConstructorReturn(this, (CarSubMenu.__proto__ || Object.getPrototypeOf(CarSubMenu)).call(this, props));
 
         _this16.state = {
-            makeBool: false,
+            makeBool: true,
             modelBool: false
         };
         _this16.makeToggleHandleClick = _this16.makeToggleHandleClick.bind(_this16);

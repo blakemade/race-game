@@ -80,7 +80,7 @@ class MakeSelector extends React.Component {
                 <h3>Choose car make</h3>
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.manufacturer_name)}</li>)}
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{el.manufacturer_name}</li>)}
                 </ul>
             </div>
         )
@@ -120,7 +120,7 @@ class ModelSelector extends React.Component {
                 <h3>Choose car model</h3>
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.model)}</li>)}
+                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{el.model}</li>)}
                 </ul>
             </div>
         )
@@ -131,15 +131,16 @@ class TrackSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data1: []
+            data1: [],
+            track: 0
         };
     }
 
     componentDidMount() {
         // const url = new URL('https://race-game.herokuapp.com/tracks'
-        
+
         fetch(
-            'https://race-game.herokuapp.com/api/tracks', 
+            'https://race-game.herokuapp.com/api/tracks',
             {
                 credentials: 'omit',
             })
@@ -160,7 +161,22 @@ class TrackSelector extends React.Component {
                 <h3>Choose track</h3>
                 <input name="track-search" type="text" /><button>Search</button>
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{(el.track_name)}</li>)}
+                    {this.state.data1.map(el => {
+                        return (
+                            <li key={this.state.data1.indexOf(el).toString()}
+                                id={this.state.data1.indexOf(el).toString()}
+                                some-attribute={this.state.data1.indexOf(el).toString()}
+                                onClick={() => {
+                                    this.setState({
+                                        track: document.getElementById(this.state.data1.indexOf(el).toString()).innerHTML
+                                    });
+                                    console.log(JSON.stringify(this.state.track));
+                                }}
+                            >
+                                {el.track_name}
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>
         )
@@ -187,7 +203,7 @@ class CarSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            makeBool: false,
+            makeBool: true,
             modelBool: false
         };
         this.makeToggleHandleClick = this.makeToggleHandleClick.bind(this);
@@ -225,7 +241,7 @@ class TrackSubMenu extends React.Component {
         super(props);
         this.state = {
             // data1: [],
-            track : ''
+            track: ''
         }
     }
 
