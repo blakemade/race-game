@@ -262,7 +262,7 @@ var TrackSelector = function (_React$Component7) {
 
         _this12.state = {
             data1: [],
-            track: 0
+            track: ""
         };
         return _this12;
     }
@@ -318,7 +318,7 @@ var TrackSelector = function (_React$Component7) {
                                 'some-attribute': _this14.state.data1.indexOf(el).toString(),
                                 onClick: function onClick() {
                                     _this14.setState({
-                                        track: document.getElementById(_this14.state.data1.indexOf(el).toString()).innerHTML
+                                        track: document.getElementById(_this14.state.data1.indexOf(el)).innerHTML
                                     });
                                     console.log(JSON.stringify(_this14.state.track));
                                 }

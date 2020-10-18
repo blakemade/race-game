@@ -132,7 +132,7 @@ class TrackSelector extends React.Component {
         super(props);
         this.state = {
             data1: [],
-            track: 0
+            track: ""
         };
     }
 
@@ -168,7 +168,7 @@ class TrackSelector extends React.Component {
                                 some-attribute={this.state.data1.indexOf(el).toString()}
                                 onClick={() => {
                                     this.setState({
-                                        track: document.getElementById(this.state.data1.indexOf(el).toString()).innerHTML
+                                        track: document.getElementById(this.state.data1.indexOf(el)).innerHTML
                                     });
                                     console.log(JSON.stringify(this.state.track));
                                 }}
