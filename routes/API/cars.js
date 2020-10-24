@@ -14,8 +14,10 @@ router.get('/:id', (req, res) => {
 
     if (carId) {
 
+        const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' AND cars.manufacturer_id=$1 ORDER BY cars";
+        
         pg.query(queryText, [req.params.carId], (err, qRes) => {
-            const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' AND cars.manufacturer_id=$1 ORDER BY cars";
+            
             if (err) {
                 return console.error(err);
             } else {
@@ -26,8 +28,10 @@ router.get('/:id', (req, res) => {
 
     } else {
 
+        const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY cars";
+
         pg.query(queryText, null, (err, qRes) => {
-            const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY cars";
+            
             if (err) {
                 return console.error(err);
             } else {
