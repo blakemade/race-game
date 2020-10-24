@@ -181,11 +181,9 @@ var MakeSelector = function (_React$Component5) {
                             },
                             React.createElement(
                                 'button',
-                                {
-                                    onClick: function onClick() {
+                                { onClick: function onClick() {
                                         return _this8.selectMake(el);
-                                    }
-                                },
+                                    } },
                                 'Select Make'
                             ),
                             el.manufacturer_name
@@ -211,10 +209,17 @@ var ModelSelector = function (_React$Component6) {
             data1: [],
             make: _this9.props.make
         };
+
+        _this9.selectMakeHandler = _this9.selectModelHandler.bind(_this9);
         return _this9;
     }
 
     _createClass(ModelSelector, [{
+        key: 'selectModelHandler',
+        value: function selectModelHandler(arg) {
+            this.props.onClick(arg);
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var _this10 = this;
@@ -291,7 +296,17 @@ var ModelSelector = function (_React$Component6) {
                     this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: _this11.state.data1.indexOf(el) },
+                            { key: _this11.state.data1.indexOf(el),
+                                id: _this11.state.data1.indexOf(el)
+
+                            },
+                            React.createElement(
+                                'button',
+                                { onClick: function onClick() {
+                                        return _this11.selectModelHandler(el);
+                                    } },
+                                'Select Model'
+                            ),
                             el.model
                         );
                     })
@@ -436,10 +451,16 @@ var CarSubMenu = function (_React$Component9) {
         _this16.makeToggleHandleClick = _this16.makeToggleHandleClick.bind(_this16);
         _this16.modelToggleHandleClick = _this16.modelToggleHandleClick.bind(_this16);
         _this16.makeOnClick = _this16.makeOnClick.bind(_this16);
+        _this16.modelSelectorHandler = _this16.modelSelectorHandler.bind(_this16);
         return _this16;
     }
 
     _createClass(CarSubMenu, [{
+        key: 'modelSelectorHandler',
+        value: function modelSelectorHandler(arg) {
+            this.props.modelSelectorHandler(arg);
+        }
+    }, {
         key: 'makeToggleHandleClick',
         value: function makeToggleHandleClick() {
             this.setState({
@@ -486,7 +507,7 @@ var CarSubMenu = function (_React$Component9) {
                     this.state.make
                 ),
                 this.state.makeBool && React.createElement(MakeSelector, { onClick: this.makeOnClick }),
-                this.state.modelBool && React.createElement(ModelSelector, { make: this.state.makeId })
+                this.state.modelBool && React.createElement(ModelSelector, { onClick: this.modelToggleHandleClick, make: this.state.makeId })
             );
         }
     }]);
@@ -556,15 +577,31 @@ var MainButtonState = function (_React$Component12) {
         _this19.state = {
             carButtonBool: false,
             trackButtonBool: false,
-            lapsButtonBool: false
+            lapsButtonBool: false,
+            makeName: null,
+            makeId: null,
+            modelName: null,
+            modelId: null,
+            track: null,
+            laps: 0
         };
+
         _this19.carToggleHandleClick = _this19.carToggleHandleClick.bind(_this19);
         _this19.trackToggleHandleClick = _this19.trackToggleHandleClick.bind(_this19);
         _this19.lapsToggleHandleClick = _this19.lapsToggleHandleClick.bind(_this19);
+        _this19.modelSelectorHandler = _this19.modelSelectorHandler.bind(_this19);
         return _this19;
     }
 
     _createClass(MainButtonState, [{
+        key: 'modelSelectorHandler',
+        value: function modelSelectorHandler(arg) {
+            this.setState({
+                modelId: arg.id,
+                modelName: arg.name
+            });
+        }
+    }, {
         key: 'carToggleHandleClick',
         value: function carToggleHandleClick() {
             this.setState({
@@ -613,7 +650,7 @@ var MainButtonState = function (_React$Component12) {
                 React.createElement(
                     'div',
                     { className: 'sub-buttons' },
-                    this.state.carButtonBool && React.createElement(CarSubMenu, null),
+                    this.state.carButtonBool && React.createElement(CarSubMenu, { modelSelectorHandler: this.modelSelectorHandler }),
                     this.state.trackButtonBool && React.createElement(TrackSubMenu, null),
                     this.state.lapsButtonBool && React.createElement(LapsSubMenu, null)
                 )

@@ -92,9 +92,8 @@ class MakeSelector extends React.Component {
                                 id={this.state.data1.indexOf(el).toString()}
 
                             >
-                                <button
-                                    onClick={() => this.selectMake(el)}
-                                >Select Make
+                                <button onClick={() => this.selectMake(el)}>
+                                    Select Make
                                 </button>
                                 {el.manufacturer_name}
                             </li>
@@ -114,17 +113,26 @@ class ModelSelector extends React.Component {
             data1: [],
             make: this.props.make
         };
+
+        this.selectMakeHandler = this.selectModelHandler.bind(this);
     }
 
+    selectModelHandler(arg) {
+        this.props.onClick(arg);
+    }
+
+
+
+
     componentDidMount() {
-        
+
         console.log(JSON.stringify(this.state));
-        console.log(JSON.stringify(this.props)); 
+        console.log(JSON.stringify(this.props));
 
         if (this.state.make) {
 
             // const lowerCaseMake = this.state.make.toLowerCase();
-            const url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make; 
+            const url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make;
 
             fetch(
                 url
@@ -165,10 +173,22 @@ class ModelSelector extends React.Component {
         return (
             <div>
                 <h3>Choose car model</h3>
-        <p>Models filtered my selected make: {this.state.make}</p>
+                <p>Models filtered my selected make: {this.state.make}</p>
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{el.model}</li>)}
+                    {this.state.data1.map(el => {
+                        return (
+                            <li key={this.state.data1.indexOf(el)}
+                                id={this.state.data1.indexOf(el)}
+
+                            >
+                                <button onClick={() => this.selectModelHandler(el)}>
+                                    Select Model
+                                </button>
+                                {el.model}
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>
         )
@@ -260,6 +280,11 @@ class CarSubMenu extends React.Component {
         this.makeToggleHandleClick = this.makeToggleHandleClick.bind(this);
         this.modelToggleHandleClick = this.modelToggleHandleClick.bind(this);
         this.makeOnClick = this.makeOnClick.bind(this);
+        this.modelSelectorHandler = this.modelSelectorHandler.bind(this);
+    }
+
+    modelSelectorHandler(arg) {
+        this.props.modelSelectorHandler(arg);
     }
 
     makeToggleHandleClick() {
@@ -290,7 +315,7 @@ class CarSubMenu extends React.Component {
                 <button onClick={this.modelToggleHandleClick}>Model</button>
                 {this.state.make && <h3>Selected Make: {this.state.make}</h3>}
                 {this.state.makeBool && <MakeSelector onClick={this.makeOnClick}></MakeSelector>}
-                {this.state.modelBool && <ModelSelector make={this.state.makeId} />}
+                {this.state.modelBool && <ModelSelector onClick={this.modelToggleHandleClick} make={this.state.makeId} />}
             </div>
         )
     }
@@ -330,14 +355,30 @@ class LapsSubMenu extends React.Component {
 class MainButtonState extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             carButtonBool: false,
             trackButtonBool: false,
-            lapsButtonBool: false
+            lapsButtonBool: false,
+            makeName: null,
+            makeId: null,
+            modelName: null,
+            modelId: null,
+            track: null,
+            laps: 0
         }
+
         this.carToggleHandleClick = this.carToggleHandleClick.bind(this);
         this.trackToggleHandleClick = this.trackToggleHandleClick.bind(this);
         this.lapsToggleHandleClick = this.lapsToggleHandleClick.bind(this);
+        this.modelSelectorHandler = this.modelSelectorHandler.bind(this);
+    }
+
+    modelSelectorHandler(arg) {
+        this.setState({
+            modelId: arg.id,
+            modelName: arg.name
+        })
     }
 
     carToggleHandleClick() {
@@ -377,7 +418,7 @@ class MainButtonState extends React.Component {
                     <LapsSearchButton onClick={this.lapsToggleHandleClick} />
                 </div> <br></br>
                 <div className="sub-buttons">
-                    {this.state.carButtonBool && <CarSubMenu />}
+                    {this.state.carButtonBool && <CarSubMenu modelSelectorHandler={this.modelSelectorHandler} />}
                     {this.state.trackButtonBool && <TrackSubMenu />}
                     {this.state.lapsButtonBool && <LapsSubMenu />}
                 </div>

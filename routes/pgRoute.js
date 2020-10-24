@@ -67,49 +67,56 @@ router.get('/', (req, res, next) => {
 
     // let manufacturers = 
 
-    db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id;', null, (err, qRes1) => {
-        if (err) {
-            return next(err);
-        }
-        let counter = 0;
-        let arr1 = [];
+    // db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id;', null, (err, qRes1) => {
+    //     if (err) {
+    //         return next(err);
+    //     }
+    //     let counter = 0;
+    //     let arr1 = [];
 
-        while (counter < 20) {
-            arr1.push(JSON.stringify(qRes1.rows[counter]));
-            counter++;
-        }
+    //     while (counter < 20) {
+    //         arr1.push(JSON.stringify(qRes1.rows[counter]));
+    //         counter++;
+    //     }
 
-        let newArr1 = arr1.map(el => `<ul>${el}</ul>`)
+    //     let newArr1 = arr1.map(el => `<ul>${el}</ul>`)
 
-        console.log('logging newArr from pgRoute: ', newArr1);
+    //     console.log('logging newArr from pgRoute: ', newArr1);
 
-        // res.render('index', {
-        //     title: arr, // JSON.stringify(res), //JSON.stringify(myRows),
-        //     body: newArr,
-        // });
+    // res.render('index', {
+    //     title: arr, // JSON.stringify(res), //JSON.stringify(myRows),
+    //     body: newArr,
+    // });
 
-        console.log('logging manufacturers from pgRoute: ', qRes1);
+    // console.log('logging manufacturers from pgRoute: ', qRes1);
 
-        // res.render('index', {
-        //     title: getManufacturers(), // JSON.stringify(res), //JSON.stringify(myRows),
-        //     body: 'Hey there...',
-        //     // qRes: {'qRes': qRes }
-        // });
-        // // }
-        // // connection.end();
-        // //});
+    // res.render('index', {
+    //     title: getManufacturers(), // JSON.stringify(res), //JSON.stringify(myRows),
+    //     body: 'Hey there...',
+    //     // qRes: {'qRes': qRes }
+    // });
+    // // }
+    // // connection.end();
+    // //});
 
-        // });
+    // });
 
-        db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id WHERE manufacturer_name = \'Audi\' AND cars.owned = \'t\';', null, (err, qRes2) => {
+    // db.query('SELECT manufacturers.manufacturer_name, cars.model FROM race_game.manufacturers INNER JOIN race_game.cars ON cars.manufacturer_id = manufacturers.id WHERE manufacturer_name = \'Audi\' AND cars.owned = \'t\';', null, (err, qRes2) => {
 
-            res.render('index', {
-                title: arr1, // JSON.stringify(res), //JSON.stringify(myRows),
-                body: JSON.stringify(qRes2.rows)
-            });
-        });
+    const title = "CAR | TRACK | LAPS"
+    const body = `
+    Welcome to Car Track Laps! This is a companion app for the popular mobile car racing game Real Racing 3. 
+    It allows for filtering of game race events by car (make or model), track, and a minimum number of laps.
+    For more information about the app, take a look at the about page (coming soon...)
+    `;
+
+    res.render('index', {
+        title: title, // JSON.stringify(res), //JSON.stringify(myRows),
+        body: body // JSON.stringify(qRes2.rows)
     });
 });
+// });
+// });
 
 module.exports = router
 
