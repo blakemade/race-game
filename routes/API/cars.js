@@ -7,7 +7,7 @@ const pg = require('../../models/db');
 
 
 
-router.get('/:id', (req, res) => {
+router.get('/:carId', (req, res) => {
     // console.log('running mfg query');
 
     const { carId } = req.params;
@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
     if (carId) {
 
         const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' AND cars.manufacturer_id=$1 ORDER BY cars";
-        
+
         pg.query(queryText, [req.params.carId], (err, qRes) => {
             
             if (err) {
