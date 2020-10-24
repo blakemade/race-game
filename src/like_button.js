@@ -22,7 +22,6 @@ class LikeButton extends React.Component {
     }
 }
 
-
 class CarSearchButton extends React.Component {
     render() {
         return (
@@ -53,6 +52,12 @@ class MakeSelector extends React.Component {
         this.state = {
             data1: []
         };
+
+        this.selectMake = this.selectMake.bind(this);
+    }
+
+    selectMake(el) {
+        this.props.onClick(el);
     }
 
     componentDidMount() {
@@ -80,7 +85,22 @@ class MakeSelector extends React.Component {
                 <h3>Choose car make</h3>
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
-                    {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{el.manufacturer_name}</li>)}
+                    {this.state.data1.map(el => {
+                        return (
+
+                            <li key={this.state.data1.indexOf(el)}
+                                id={this.state.data1.indexOf(el).toString()}
+
+                            >
+                                <button
+                                    onClick={() => this.selectMake(el)}
+                                >Select Make
+                                </button>
+                                {el.manufacturer_name}
+                            </li>
+                        )
+                    })}
+
                 </ul>
             </div>
         )
@@ -91,26 +111,53 @@ class ModelSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data1: []
+            data1: [],
+            make: this.props.make
         };
     }
 
     componentDidMount() {
+        
+        console.log(JSON.stringify(this.state));
+        console.log(JSON.stringify(this.props)); 
 
-        fetch(
-            'https://race-game.herokuapp.com/api/cars'
-            //  'http://localhost:3000/api/manufacturers'  
-            , {
-                credentials: 'omit',
-            })
-            .then(response => response.json())
-            .then((data) => {
-                // const filteredData = 
-                this.setState({ data1: data });
-                return data;
-            })
-            .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
-        // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        if (this.state.make) {
+
+            // const lowerCaseMake = this.state.make.toLowerCase();
+            const url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make; 
+
+            fetch(
+                url
+                // 'https://race-game.herokuapp.com/api/cars/' + this.state.make // lowerCaseMake
+                //  'http://localhost:3000/api/manufacturers'  
+                , {
+                    credentials: 'omit',
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    // const filteredData = 
+                    this.setState({ data1: data });
+                    return data;
+                })
+                .then(data => console.log('data1 logging from MakeSelector fetch then chain (with make selected): ', data));
+
+        } else {
+
+            fetch(
+                'https://race-game.herokuapp.com/api/cars'
+                //  'http://localhost:3000/api/manufacturers'  
+                , {
+                    credentials: 'omit',
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    // const filteredData = 
+                    this.setState({ data1: data });
+                    return data;
+                })
+                .then(data => console.log('data1 logging from MakeSelector fetch then chain: ', data));
+            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+        }
     }
 
     render() {
@@ -118,6 +165,7 @@ class ModelSelector extends React.Component {
         return (
             <div>
                 <h3>Choose car model</h3>
+        <p>Models filtered my selected make: {this.state.make}</p>
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
                     {this.state.data1.map(el => <li key={this.state.data1.indexOf(el)}>{el.model}</li>)}
@@ -204,10 +252,14 @@ class CarSubMenu extends React.Component {
         super(props);
         this.state = {
             makeBool: true,
-            modelBool: false
+            modelBool: false,
+            make: "",
+            makeId: null,
+            model: ""
         };
         this.makeToggleHandleClick = this.makeToggleHandleClick.bind(this);
         this.modelToggleHandleClick = this.modelToggleHandleClick.bind(this);
+        this.makeOnClick = this.makeOnClick.bind(this);
     }
 
     makeToggleHandleClick() {
@@ -224,13 +276,21 @@ class CarSubMenu extends React.Component {
         });
     }
 
+    makeOnClick(el) {
+        this.setState({
+            make: el.manufacturer_name,
+            makeId: el.id
+        })
+    }
+
     render() {
         return (
             <div>
                 <button onClick={this.makeToggleHandleClick}>Make</button>
                 <button onClick={this.modelToggleHandleClick}>Model</button>
-                {this.state.makeBool && <MakeSelector />}
-                {this.state.modelBool && <ModelSelector />}
+                {this.state.make && <h3>Selected Make: {this.state.make}</h3>}
+                {this.state.makeBool && <MakeSelector onClick={this.makeOnClick}></MakeSelector>}
+                {this.state.modelBool && <ModelSelector make={this.state.makeId} />}
             </div>
         )
     }
@@ -240,8 +300,7 @@ class TrackSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // data1: [],
-            track: ''
+            // data1: []
         }
     }
 

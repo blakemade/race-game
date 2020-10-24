@@ -119,10 +119,17 @@ var MakeSelector = function (_React$Component5) {
         _this6.state = {
             data1: []
         };
+
+        _this6.selectMake = _this6.selectMake.bind(_this6);
         return _this6;
     }
 
     _createClass(MakeSelector, [{
+        key: 'selectMake',
+        value: function selectMake(el) {
+            this.props.onClick(el);
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var _this7 = this;
@@ -168,7 +175,19 @@ var MakeSelector = function (_React$Component5) {
                     this.state.data1.map(function (el) {
                         return React.createElement(
                             'li',
-                            { key: _this8.state.data1.indexOf(el) },
+                            { key: _this8.state.data1.indexOf(el),
+                                id: _this8.state.data1.indexOf(el).toString()
+
+                            },
+                            React.createElement(
+                                'button',
+                                {
+                                    onClick: function onClick() {
+                                        return _this8.selectMake(el);
+                                    }
+                                },
+                                'Select Make'
+                            ),
                             el.manufacturer_name
                         );
                     })
@@ -189,7 +208,8 @@ var ModelSelector = function (_React$Component6) {
         var _this9 = _possibleConstructorReturn(this, (ModelSelector.__proto__ || Object.getPrototypeOf(ModelSelector)).call(this, props));
 
         _this9.state = {
-            data1: []
+            data1: [],
+            make: _this9.props.make
         };
         return _this9;
     }
@@ -199,20 +219,45 @@ var ModelSelector = function (_React$Component6) {
         value: function componentDidMount() {
             var _this10 = this;
 
-            fetch('https://race-game.herokuapp.com/api/cars'
-            //  'http://localhost:3000/api/manufacturers'  
-            , {
-                credentials: 'omit'
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                // const filteredData = 
-                _this10.setState({ data1: data });
-                return data;
-            }).then(function (data) {
-                return console.log('data1 logging from MakeSelector fetch then chain: ', data);
-            });
-            // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+            console.log(JSON.stringify(this.state));
+            console.log(JSON.stringify(this.props));
+
+            if (this.state.make) {
+
+                // const lowerCaseMake = this.state.make.toLowerCase();
+                var url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make;
+
+                fetch(url
+                // 'https://race-game.herokuapp.com/api/cars/' + this.state.make // lowerCaseMake
+                //  'http://localhost:3000/api/manufacturers'  
+                , {
+                    credentials: 'omit'
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    // const filteredData = 
+                    _this10.setState({ data1: data });
+                    return data;
+                }).then(function (data) {
+                    return console.log('data1 logging from MakeSelector fetch then chain (with make selected): ', data);
+                });
+            } else {
+
+                fetch('https://race-game.herokuapp.com/api/cars'
+                //  'http://localhost:3000/api/manufacturers'  
+                , {
+                    credentials: 'omit'
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    // const filteredData = 
+                    _this10.setState({ data1: data });
+                    return data;
+                }).then(function (data) {
+                    return console.log('data1 logging from MakeSelector fetch then chain: ', data);
+                });
+                // .then(() => console.log("logging this.state from end of data2 Fetch chain", JSON.stringify(this.state)));
+            }
         }
     }, {
         key: 'render',
@@ -227,6 +272,12 @@ var ModelSelector = function (_React$Component6) {
                     'h3',
                     null,
                     'Choose car model'
+                ),
+                React.createElement(
+                    'p',
+                    null,
+                    'Models filtered my selected make: ',
+                    this.state.make
                 ),
                 React.createElement('input', { name: 'make-search', type: 'text' }),
                 React.createElement(
@@ -377,10 +428,14 @@ var CarSubMenu = function (_React$Component9) {
 
         _this16.state = {
             makeBool: true,
-            modelBool: false
+            modelBool: false,
+            make: "",
+            makeId: null,
+            model: ""
         };
         _this16.makeToggleHandleClick = _this16.makeToggleHandleClick.bind(_this16);
         _this16.modelToggleHandleClick = _this16.modelToggleHandleClick.bind(_this16);
+        _this16.makeOnClick = _this16.makeOnClick.bind(_this16);
         return _this16;
     }
 
@@ -401,6 +456,14 @@ var CarSubMenu = function (_React$Component9) {
             });
         }
     }, {
+        key: 'makeOnClick',
+        value: function makeOnClick(el) {
+            this.setState({
+                make: el.manufacturer_name,
+                makeId: el.id
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
@@ -416,8 +479,14 @@ var CarSubMenu = function (_React$Component9) {
                     { onClick: this.modelToggleHandleClick },
                     'Model'
                 ),
-                this.state.makeBool && React.createElement(MakeSelector, null),
-                this.state.modelBool && React.createElement(ModelSelector, null)
+                this.state.make && React.createElement(
+                    'h3',
+                    null,
+                    'Selected Make: ',
+                    this.state.make
+                ),
+                this.state.makeBool && React.createElement(MakeSelector, { onClick: this.makeOnClick }),
+                this.state.modelBool && React.createElement(ModelSelector, { make: this.state.makeId })
             );
         }
     }]);
@@ -434,8 +503,7 @@ var TrackSubMenu = function (_React$Component10) {
         var _this17 = _possibleConstructorReturn(this, (TrackSubMenu.__proto__ || Object.getPrototypeOf(TrackSubMenu)).call(this, props));
 
         _this17.state = {
-            // data1: [],
-            track: ''
+            // data1: []
         };
         return _this17;
     }
