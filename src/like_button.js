@@ -50,7 +50,9 @@ class MakeSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data1: []
+            data1: [],
+            makeName: "",
+            makeId: null
         };
 
         this.selectMake = this.selectMake.bind(this);
@@ -58,6 +60,10 @@ class MakeSelector extends React.Component {
 
     selectMake(el) {
         this.props.onClick(el);
+        this.setState({
+            makeName: el.manufacturer_name,
+            makeId: el.id
+        })
     }
 
     componentDidMount() {
@@ -111,14 +117,21 @@ class ModelSelector extends React.Component {
         super(props);
         this.state = {
             data1: [],
-            make: this.props.make
+            makeId: this.props.makeId,
+            makeName: this.props.makeName,
+            modelName: "",
+            modelId: null
         };
 
-        this.selectMakeHandler = this.selectModelHandler.bind(this);
+        this.selectModelHandler = this.selectModelHandler.bind(this);
     }
 
     selectModelHandler(arg) {
         this.props.onClick(arg);
+        this.setState({
+            modelName: arg.model,
+            modelId: arg.id
+        })
     }
 
 
@@ -129,10 +142,10 @@ class ModelSelector extends React.Component {
         console.log(JSON.stringify(this.state));
         console.log(JSON.stringify(this.props));
 
-        if (this.state.make) {
+        if (this.state.makeId) {
 
             // const lowerCaseMake = this.state.make.toLowerCase();
-            const url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make;
+            const url = 'https://race-game.herokuapp.com/api/cars/' + this.state.makeId;
 
             fetch(
                 url
@@ -170,10 +183,13 @@ class ModelSelector extends React.Component {
 
     render() {
         // const MOCKMAKE = ['make1', 'make2', 'make3'];
+        console.log(JSON.stringify(this.state));
+
         return (
             <div>
                 <h3>Choose car model</h3>
-                <p>Models filtered my selected make: {this.state.make}</p>
+                {this.state.makeId && <p>Models filtered my selected make: {this.state.makeName}</p>}
+                {this.state.model && <p>Selected model: {this.state.model}</p>}
                 <input name="make-search" type="text" /><button>Search</button>
                 <ul>
                     {this.state.data1.map(el => {
@@ -273,10 +289,12 @@ class CarSubMenu extends React.Component {
         this.state = {
             makeBool: true,
             modelBool: false,
-            make: "",
+            makeName: "",
             makeId: null,
-            model: ""
+            modelName: "",
+            modelId: null
         };
+
         this.makeToggleHandleClick = this.makeToggleHandleClick.bind(this);
         this.modelToggleHandleClick = this.modelToggleHandleClick.bind(this);
         this.makeOnClick = this.makeOnClick.bind(this);
@@ -285,6 +303,10 @@ class CarSubMenu extends React.Component {
 
     modelSelectorHandler(arg) {
         this.props.modelSelectorHandler(arg);
+        this.setState({
+            modelName: arg.model,
+            modelId: arg.id
+        })
     }
 
     makeToggleHandleClick() {
@@ -303,7 +325,7 @@ class CarSubMenu extends React.Component {
 
     makeOnClick(el) {
         this.setState({
-            make: el.manufacturer_name,
+            makeName: el.manufacturer_name,
             makeId: el.id
         })
     }
@@ -313,9 +335,10 @@ class CarSubMenu extends React.Component {
             <div>
                 <button onClick={this.makeToggleHandleClick}>Make</button>
                 <button onClick={this.modelToggleHandleClick}>Model</button>
-                {this.state.make && <h3>Selected Make: {this.state.make}</h3>}
-                {this.state.makeBool && <MakeSelector onClick={this.makeOnClick}></MakeSelector>}
-                {this.state.modelBool && <ModelSelector onClick={this.modelToggleHandleClick} make={this.state.makeId} />}
+                {this.state.makeName && <h3>Selected Make: {this.state.makeName}</h3>}
+                {this.state.modelName && <h3>Selected Model: {this.state.modelName}</h3>}
+                {this.state.makeBool && <MakeSelector onClick={this.makeOnClick} />}
+                {this.state.modelBool && <ModelSelector onClick={this.modelSelectorHandler} makeId={this.state.makeId} makeName={this.state.makeName} />}
             </div>
         )
     }
@@ -360,12 +383,12 @@ class MainButtonState extends React.Component {
             carButtonBool: false,
             trackButtonBool: false,
             lapsButtonBool: false,
-            makeName: null,
+            makeName: "",
             makeId: null,
-            modelName: null,
+            modelName: "",
             modelId: null,
             track: null,
-            laps: 0
+            laps: null
         }
 
         this.carToggleHandleClick = this.carToggleHandleClick.bind(this);
@@ -377,7 +400,7 @@ class MainButtonState extends React.Component {
     modelSelectorHandler(arg) {
         this.setState({
             modelId: arg.id,
-            modelName: arg.name
+            modelName: arg.model
         })
     }
 
@@ -422,6 +445,16 @@ class MainButtonState extends React.Component {
                     {this.state.trackButtonBool && <TrackSubMenu />}
                     {this.state.lapsButtonBool && <LapsSubMenu />}
                 </div>
+                <div>
+                    <Results 
+                    makeId={this.state.makeId}
+                    makeName={this.state.makeName}
+                    modelId={this.state.modelId}
+                    modelName={this.state.modelName}
+                    trackId={this.state.trackId}
+                    trackName={this.state.trackName}
+                    laps={this.state.laps}/>
+                </div>
             </div>
         )
     }
@@ -434,21 +467,28 @@ class Results extends React.Component {
         super(props);
         this.state = {
             data1: '',
-            data2: ''
+            data2: '',
+            makeId: this.props.makeId,
+            makeName: this.props.makeName,
+            modelId: this.props.modelId,
+            modelName: this.props.modelName,
+            trackId: this.props.trackId,
+            trackName: this.props.trackName,
+            laps: this.props.laps
         }
     }
 
     componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/posts', {
-            credentials: 'include',
-        })
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({ data1: JSON.stringify(data[0]) });
-                return data;
-            })
-            .then(data => console.log('data logging from fetch then chain: ', data))
-            .then(() => console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(this.state)));
+        // fetch('https://jsonplaceholder.typicode.com/posts', {
+        //     credentials: 'include',
+        // })
+        //     .then(response => response.json())
+        //     .then((data) => {
+        //         this.setState({ data1: JSON.stringify(data[0]) });
+        //         return data;
+        //     })
+        //     .then(data => console.log('data logging from fetch then chain: ', data))
+        //     .then(() => console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(this.state)));
 
         fetch(
             'https://race-game.herokuapp.com/api/manufacturers'
@@ -469,8 +509,19 @@ class Results extends React.Component {
         return (
             <div>
                 <h3>These are the results:</h3>
-                {JSON.stringify(this.state.data1)}
-                {JSON.stringify(this.state.data2)}
+                <p>Your selected criteria:</p>
+                {!this.props.makeName && !this.props.modelName && !this.props.trackName && !this.props.laps && <p>Please select at least either a make and/or model, a track, or a minimum number of laps</p>}
+
+                {this.props.makeName && <p>Selected make: {this.props.makeName}</p>}
+                {this.props.modelName && <p>Selected model: {this.props.modelName}</p>}
+                {this.props.trackName && <p>Selected track: {this.props.makeName}</p>}
+                {this.props.laps && <p>Minimum number of laps: {this.props.laps}</p>}
+ 
+
+                <div>
+                    <p>Available events:</p>
+                    {JSON.stringify(this.state.data2)}
+                </div>
             </div>
         )
     }
@@ -491,7 +542,6 @@ function ContainerWrapper() {
     return (
         <div>
             <MainButtonState />
-            <Results />
         </div>
     )
 }

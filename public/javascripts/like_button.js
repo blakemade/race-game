@@ -117,7 +117,9 @@ var MakeSelector = function (_React$Component5) {
         var _this6 = _possibleConstructorReturn(this, (MakeSelector.__proto__ || Object.getPrototypeOf(MakeSelector)).call(this, props));
 
         _this6.state = {
-            data1: []
+            data1: [],
+            makeName: "",
+            makeId: null
         };
 
         _this6.selectMake = _this6.selectMake.bind(_this6);
@@ -128,6 +130,10 @@ var MakeSelector = function (_React$Component5) {
         key: 'selectMake',
         value: function selectMake(el) {
             this.props.onClick(el);
+            this.setState({
+                makeName: el.manufacturer_name,
+                makeId: el.id
+            });
         }
     }, {
         key: 'componentDidMount',
@@ -207,10 +213,13 @@ var ModelSelector = function (_React$Component6) {
 
         _this9.state = {
             data1: [],
-            make: _this9.props.make
+            makeId: _this9.props.makeId,
+            makeName: _this9.props.makeName,
+            modelName: "",
+            modelId: null
         };
 
-        _this9.selectMakeHandler = _this9.selectModelHandler.bind(_this9);
+        _this9.selectModelHandler = _this9.selectModelHandler.bind(_this9);
         return _this9;
     }
 
@@ -218,6 +227,10 @@ var ModelSelector = function (_React$Component6) {
         key: 'selectModelHandler',
         value: function selectModelHandler(arg) {
             this.props.onClick(arg);
+            this.setState({
+                modelName: arg.model,
+                modelId: arg.id
+            });
         }
     }, {
         key: 'componentDidMount',
@@ -227,10 +240,10 @@ var ModelSelector = function (_React$Component6) {
             console.log(JSON.stringify(this.state));
             console.log(JSON.stringify(this.props));
 
-            if (this.state.make) {
+            if (this.state.makeId) {
 
                 // const lowerCaseMake = this.state.make.toLowerCase();
-                var url = 'https://race-game.herokuapp.com/api/cars/' + this.state.make;
+                var url = 'https://race-game.herokuapp.com/api/cars/' + this.state.makeId;
 
                 fetch(url
                 // 'https://race-game.herokuapp.com/api/cars/' + this.state.make // lowerCaseMake
@@ -270,6 +283,8 @@ var ModelSelector = function (_React$Component6) {
             var _this11 = this;
 
             // const MOCKMAKE = ['make1', 'make2', 'make3'];
+            console.log(JSON.stringify(this.state));
+
             return React.createElement(
                 'div',
                 null,
@@ -278,11 +293,17 @@ var ModelSelector = function (_React$Component6) {
                     null,
                     'Choose car model'
                 ),
-                React.createElement(
+                this.state.makeId && React.createElement(
                     'p',
                     null,
                     'Models filtered my selected make: ',
-                    this.state.make
+                    this.state.makeName
+                ),
+                this.state.model && React.createElement(
+                    'p',
+                    null,
+                    'Selected model: ',
+                    this.state.model
                 ),
                 React.createElement('input', { name: 'make-search', type: 'text' }),
                 React.createElement(
@@ -444,10 +465,12 @@ var CarSubMenu = function (_React$Component9) {
         _this16.state = {
             makeBool: true,
             modelBool: false,
-            make: "",
+            makeName: "",
             makeId: null,
-            model: ""
+            modelName: "",
+            modelId: null
         };
+
         _this16.makeToggleHandleClick = _this16.makeToggleHandleClick.bind(_this16);
         _this16.modelToggleHandleClick = _this16.modelToggleHandleClick.bind(_this16);
         _this16.makeOnClick = _this16.makeOnClick.bind(_this16);
@@ -459,6 +482,10 @@ var CarSubMenu = function (_React$Component9) {
         key: 'modelSelectorHandler',
         value: function modelSelectorHandler(arg) {
             this.props.modelSelectorHandler(arg);
+            this.setState({
+                modelName: arg.model,
+                modelId: arg.id
+            });
         }
     }, {
         key: 'makeToggleHandleClick',
@@ -480,7 +507,7 @@ var CarSubMenu = function (_React$Component9) {
         key: 'makeOnClick',
         value: function makeOnClick(el) {
             this.setState({
-                make: el.manufacturer_name,
+                makeName: el.manufacturer_name,
                 makeId: el.id
             });
         }
@@ -500,14 +527,20 @@ var CarSubMenu = function (_React$Component9) {
                     { onClick: this.modelToggleHandleClick },
                     'Model'
                 ),
-                this.state.make && React.createElement(
+                this.state.makeName && React.createElement(
                     'h3',
                     null,
                     'Selected Make: ',
-                    this.state.make
+                    this.state.makeName
+                ),
+                this.state.modelName && React.createElement(
+                    'h3',
+                    null,
+                    'Selected Model: ',
+                    this.state.modelName
                 ),
                 this.state.makeBool && React.createElement(MakeSelector, { onClick: this.makeOnClick }),
-                this.state.modelBool && React.createElement(ModelSelector, { onClick: this.modelToggleHandleClick, make: this.state.makeId })
+                this.state.modelBool && React.createElement(ModelSelector, { onClick: this.modelSelectorHandler, makeId: this.state.makeId, makeName: this.state.makeName })
             );
         }
     }]);
@@ -578,12 +611,12 @@ var MainButtonState = function (_React$Component12) {
             carButtonBool: false,
             trackButtonBool: false,
             lapsButtonBool: false,
-            makeName: null,
+            makeName: "",
             makeId: null,
-            modelName: null,
+            modelName: "",
             modelId: null,
             track: null,
-            laps: 0
+            laps: null
         };
 
         _this19.carToggleHandleClick = _this19.carToggleHandleClick.bind(_this19);
@@ -598,7 +631,7 @@ var MainButtonState = function (_React$Component12) {
         value: function modelSelectorHandler(arg) {
             this.setState({
                 modelId: arg.id,
-                modelName: arg.name
+                modelName: arg.model
             });
         }
     }, {
@@ -653,6 +686,18 @@ var MainButtonState = function (_React$Component12) {
                     this.state.carButtonBool && React.createElement(CarSubMenu, { modelSelectorHandler: this.modelSelectorHandler }),
                     this.state.trackButtonBool && React.createElement(TrackSubMenu, null),
                     this.state.lapsButtonBool && React.createElement(LapsSubMenu, null)
+                ),
+                React.createElement(
+                    'div',
+                    null,
+                    React.createElement(Results, {
+                        makeId: this.state.makeId,
+                        makeName: this.state.makeName,
+                        modelId: this.state.modelId,
+                        modelName: this.state.modelName,
+                        trackId: this.state.trackId,
+                        trackName: this.state.trackName,
+                        laps: this.state.laps })
                 )
             );
         }
@@ -671,7 +716,14 @@ var Results = function (_React$Component13) {
 
         _this20.state = {
             data1: '',
-            data2: ''
+            data2: '',
+            makeId: _this20.props.makeId,
+            makeName: _this20.props.makeName,
+            modelId: _this20.props.modelId,
+            modelName: _this20.props.modelName,
+            trackId: _this20.props.trackId,
+            trackName: _this20.props.trackName,
+            laps: _this20.props.laps
         };
         return _this20;
     }
@@ -681,18 +733,16 @@ var Results = function (_React$Component13) {
         value: function componentDidMount() {
             var _this21 = this;
 
-            fetch('https://jsonplaceholder.typicode.com/posts', {
-                credentials: 'include'
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                _this21.setState({ data1: JSON.stringify(data[0]) });
-                return data;
-            }).then(function (data) {
-                return console.log('data logging from fetch then chain: ', data);
-            }).then(function () {
-                return console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(_this21.state));
-            });
+            // fetch('https://jsonplaceholder.typicode.com/posts', {
+            //     credentials: 'include',
+            // })
+            //     .then(response => response.json())
+            //     .then((data) => {
+            //         this.setState({ data1: JSON.stringify(data[0]) });
+            //         return data;
+            //     })
+            //     .then(data => console.log('data logging from fetch then chain: ', data))
+            //     .then(() => console.log("logging this.state from end of data1 Fetch chain", JSON.stringify(this.state)));
 
             fetch('https://race-game.herokuapp.com/api/manufacturers'
             //  'http://localhost:3000/api/manufacturers'  
@@ -720,8 +770,50 @@ var Results = function (_React$Component13) {
                     null,
                     'These are the results:'
                 ),
-                JSON.stringify(this.state.data1),
-                JSON.stringify(this.state.data2)
+                React.createElement(
+                    'p',
+                    null,
+                    'Your selected criteria:'
+                ),
+                !this.props.makeName && !this.props.modelName && !this.props.trackName && !this.props.laps && React.createElement(
+                    'p',
+                    null,
+                    'Please select at least either a make and/or model, a track, or a minimum number of laps'
+                ),
+                this.props.makeName && React.createElement(
+                    'p',
+                    null,
+                    'Selected make: ',
+                    this.props.makeName
+                ),
+                this.props.modelName && React.createElement(
+                    'p',
+                    null,
+                    'Selected model: ',
+                    this.props.modelName
+                ),
+                this.props.trackName && React.createElement(
+                    'p',
+                    null,
+                    'Selected track: ',
+                    this.props.makeName
+                ),
+                this.props.laps && React.createElement(
+                    'p',
+                    null,
+                    'Minimum number of laps: ',
+                    this.props.laps
+                ),
+                React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                        'p',
+                        null,
+                        'Available events:'
+                    ),
+                    JSON.stringify(this.state.data2)
+                )
             );
         }
     }]);
@@ -733,8 +825,7 @@ function ContainerWrapper() {
     return React.createElement(
         'div',
         null,
-        React.createElement(MainButtonState, null),
-        React.createElement(Results, null)
+        React.createElement(MainButtonState, null)
     );
 }
 

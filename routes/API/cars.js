@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
     // const { carId } = req.params;
 
-    const queryText = "SELECT cars.id, cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY cars";
+    const queryText = "SELECT cars.id, cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY model" 
 
     pg.query(queryText, null, (err, qRes) => {
 
@@ -33,7 +33,7 @@ router.get('/:carId', (req, res) => {
 
     if (carId) {
 
-        const queryText = "SELECT cars.id, cars.model FROM race_game.cars WHERE cars.owned='t' AND cars.manufacturer_id=$1 ORDER BY cars";
+        const queryText = "SELECT cars.id, cars.model FROM race_game.cars WHERE cars.owned='t' AND cars.manufacturer_id=$1 ORDER BY model";
 
         pg.query(queryText, [req.params.carId], (err, qRes) => {
 
@@ -47,7 +47,7 @@ router.get('/:carId', (req, res) => {
 
     } else {
 
-        const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY cars";
+        const queryText = "SELECT cars.model FROM race_game.cars WHERE cars.owned='t' ORDER BY model";
 
         pg.query(queryText, null, (err, qRes) => {
 
